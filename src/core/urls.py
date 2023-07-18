@@ -5,6 +5,9 @@ from core import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', include('user.urls')),
+    path('portfolio/', include('portfolio.urls')),
 ]
 
 if settings.DEBUG:
