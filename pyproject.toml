@@ -10,6 +10,7 @@ packages = [{include = "dj_portfolio"}]
 python = "^3.11"
 Django = "^4.2.3"
 python-dotenv = "^1.0.0"
+pillow = "^10.0.0"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "^4.1.0"
