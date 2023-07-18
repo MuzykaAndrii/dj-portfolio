@@ -7,8 +7,9 @@ from core import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', include('user.urls', namespace='auth')),
+    path('', include('auth.urls', namespace='auth')),
     path('portfolio/', include('portfolio.urls', namespace='portfolio')),
+    path('user/', include('user.urls', namespace='user')),
 ]
 
 if settings.DEBUG:

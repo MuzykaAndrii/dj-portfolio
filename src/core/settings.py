@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
 
+    "auth.apps.AuthConfig",
     "user.apps.UserConfig",
     'portfolio.apps.PortfolioConfig',
 ]
