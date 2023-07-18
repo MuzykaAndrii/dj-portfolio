@@ -3,11 +3,12 @@ from django.urls import path, include
 
 from core import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', include('user.urls')),
-    path('portfolio/', include('portfolio.urls')),
+    path('', include('user.urls', namespace='auth')),
+    path('portfolio/', include('portfolio.urls', namespace='portfolio')),
 ]
 
 if settings.DEBUG:

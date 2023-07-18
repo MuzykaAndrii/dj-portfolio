@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.views import View
 
 from user.forms import (
     UserRegisterForm,
@@ -8,37 +9,42 @@ from user.forms import (
 )
 
 
-def register_user(request):
-    if not request.method == "POST":
+class RegisterView(View):
+    def get(self, request):
         form = UserRegisterForm()
         return render(request, "user/register.html", {"form": form})
 
-    form = UserRegisterForm(request.POST)
-    if not form.is_valid():
-        messages.error(request, "Registration error")
-        return render(request, "user/register.html", {"form": form})
+    def post(self, request):
+        form = UserRegisterForm(request.POST)
 
-    form.save()
-    messages.success(request, "User registration successful")
-    return redirect("login_user")
+        if not form.is_valid():
+            messages.error(request, "Registration error")
+            return render(request, "user/register.html", {"form": form})
+        
+        form.save()
+        messages.success(request, "User registration successful")
+        return redirect("user:login")
 
 
-def login_user(request):
-    if not request.method == "POST":
+class LoginView(View):
+    def get(self, request):
         form = UserLoginForm()
         return render(request, "user/login.html", {"form": form})
+    
+    def post(self, request):
+        form = UserLoginForm(data=request.POST)
+        
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, f"{user.username} successfully logged in.")
+            return redirect("portfolio:index")
 
-    form = UserLoginForm(data=request.POST)
-    if form.is_valid():
-        user = form.get_user()
-        login(request, user)
-        messages.success(request, f"{user.username} successfully logged in.")
-        return redirect("index")
-
-    return render(request, "user/login.html", {"form": form})
+        return render(request, "user/login.html", {"form": form})
 
 
-def logout_user(request):
-    logout(request)
-    messages.success(request, "Successfully logged out.")
-    return redirect("login_user")
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, "Successfully logged out.")
+        return redirect("user:login")

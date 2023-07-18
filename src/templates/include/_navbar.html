@@ -34,10 +34,10 @@
           </a>
           <ul class="dropdown-menu">
             {% if request.user.is_authenticated %}
-            <li><a class="dropdown-item text-danger-emphasis" href="{% url 'logout_user' %}">Log out</a></li>
+            <li><a class="dropdown-item text-danger-emphasis" href="{% url 'user:logout' %}">Log out</a></li>
             {% else %}
-            <li><a class="dropdown-item" href="{% url 'login_user' %}">Log in</a></li>
-            <li><a class="dropdown-item" href="{% url 'register_user' %}">Register</a></li>
+            <li><a class="dropdown-item" href="{% url 'user:login' %}">Log in</a></li>
+            <li><a class="dropdown-item" href="{% url 'user:register' %}">Register</a></li>
             {% endif %}
           </ul>
         </div>
