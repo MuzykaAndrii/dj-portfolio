@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "dj-portfolio"
+version = "0.1.0"
+description = "project to host youre portfolio"
+authors = ["MuzykaAndrii <andrymyzik@gmail.com>"]
+readme = "README.md"
+packages = [{include = "dj_portfolio"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^4.2.3"
+
+[tool.poetry.group.dev.dependencies]
+django-debug-toolbar = "^4.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
