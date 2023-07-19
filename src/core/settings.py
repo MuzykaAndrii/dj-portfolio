@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "auth.apps.AuthConfig",
     "user.apps.UserConfig",
     'portfolio.apps.PortfolioConfig',
+    'language.apps.LanguageConfig',
 ]
 
 MIDDLEWARE = [
