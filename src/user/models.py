@@ -55,7 +55,7 @@ class Contact(models.Model):
         ('viber', 'Viber'),
         ('linkedin', 'Linkedin'),
     )
-    user = models.ForeignKey(
+    profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
         related_name='contacts',
@@ -76,11 +76,11 @@ class Contact(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.type} contact of {self.user}, data: {self.link}'
+        return f'{self.type} contact of {self.profile}, data: {self.link}'
     
     class Meta:
         constraints = (
-            models.UniqueConstraint(fields=('user', 'type', 'link'), name='Contact uniqueness'),
+            models.UniqueConstraint(fields=('profile', 'type', 'link'), name='Contact uniqueness'),
         )
         verbose_name_plural = 'Contacts'
 
