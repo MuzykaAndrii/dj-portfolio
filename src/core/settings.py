@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "auth.apps.AuthConfig",
     "user.apps.UserConfig",
     'portfolio.apps.PortfolioConfig',
+    "contacts.apps.ContactsConfig",
 ]
 
 MIDDLEWARE = [
