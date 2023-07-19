@@ -21,6 +21,19 @@ class Portfolio(models.Model):
         null=True,
         verbose_name="Image",
     )
+    info = models.TextField(
+        blank=False,
+        null=False,
+        verbose_name='Personal information',
+    )
+    extra_info = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name="Extra informatioon",
+    )
+
+    def __str__(self) -> str:
+        return f'{self.user} portfolio: {self.name}'
 
     class Meta:
         constraints = (
