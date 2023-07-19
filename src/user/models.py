@@ -8,7 +8,7 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
         verbose_name="User profile",
     )
-    name = models.CharField(
+    first_name = models.CharField(
         max_length=50,
         verbose_name="User name",
     )
