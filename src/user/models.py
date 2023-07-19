@@ -85,3 +85,36 @@ class Contact(models.Model):
         verbose_name_plural = 'Contacts'
 
 
+class Education(models.Model):
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='education_set',
+    )
+    institution = models.CharField(
+        max_length=255,
+        null=False,
+        blank=False,
+        verbose_name='Education institution name',
+    )
+    degree = models.CharField(
+        max_length=30,
+        null=False,
+        blank=False,
+        verbose_name='Degree or level of education',
+    )
+    speciality = models.CharField(
+        max_length=255,
+        verbose_name='Speciality of learning',
+    )
+    date_start = models.DateField(
+        null=False,
+        blank=False,
+        verbose_name='Date of education beginning',
+    )
+    date_end = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name='Date of education ended',
+        help_text='Enter date of education was ended, or leve blank if currently learning',
+    )
