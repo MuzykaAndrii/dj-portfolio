@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views import View
+from django.contrib import messages
 
 from user.forms import CreateProfileForm
 
@@ -16,7 +17,7 @@ class CreateProfileView(View):
     def get(self, request):
         """page with creation form"""
         if request.user.has_profile():
-            # TODO: flash message
+            messages.warning(request, "Youre already have a profile")
             return redirect('user:profile')
 
         profile_form = CreateProfileForm()
@@ -24,4 +25,15 @@ class CreateProfileView(View):
     
     def post(self, request):
         """creation form handler"""
-        pass
+        profile_form = CreateProfileForm(request.POST)
+
+        if not profile_form.is_valid():
+            messages.error(request, "Error during creation profile")
+            return render(request, 'user/create_profile.html', {'profile_form': profile_form})
+        
+        profile = profile_form.save(commit=False)
+        profile.user = request.user
+        profile_form.save()
+        
+        messages.success(request, "Profile sucessfully created")
+        return redirect('user:profile')

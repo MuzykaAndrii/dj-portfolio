@@ -5,6 +5,9 @@ from user.models import (
 )
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
 class CreateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
@@ -16,3 +19,6 @@ class CreateProfileForm(forms.ModelForm):
             'birth_place',
             'residence_place',
         ]
+        widgets = {
+            'date_birth': DateInput(),
+        }

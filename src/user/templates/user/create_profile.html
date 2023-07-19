@@ -1,15 +1,65 @@
 {% extends "layout/base.html" %}
 {% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'user/create_profile.css' %}">
+{% endblock style %}
 
 {% block content %}
-
 <h2 style="text-align: center;">Create profile</h2>
+<div class="profile">
+  <div class="col-md-6">
+    <h4>Profile data</h4>
+    <form action="{% url 'user:create_profile' %}" method="post" class="mt-2">
+      {% csrf_token %}
 
-<form action="" method="post">
-  {% csrf_token %}
-  {{profile_form.as_p}}
-
-  <input type="submit" value="submit">
-</form>
+      {{ profile_form.non_field_errors }}
+      
+      <div class="name form_part">
+        <div class="name_part_set">
+          <label for="last_name">Last name</label>
+          {{ profile_form.last_name|add_class:"form-control name_part" }}
+          <div class="invalid-feedback">{{ profile_form.last_name.errors }}</div>
+        </div>
+    
+        <div class="name_part_set">
+          <label for="first_name">First name</label>
+          {{ profile_form.first_name|add_class:"form-control name_part" }}
+          <div class="invalid-feedback">{{ profile_form.first_name.errors }}</div>
+        </div>
+    
+        <div class="name_part_set">
+          <label for="surname">Surname</label>
+          {{ profile_form.surname|add_class:"form-control name_part" }}
+          <div class="invalid-feedback">{{ profile_form.surname.errors }}</div>
+        </div>
+      </div>
+  
+      <div class="date_birth form_part">
+        <label for="date_birth">Date birth</label>
+        {{ profile_form.date_birth|add_class:"form-control"}}
+        <div class="invalid-feedback">{{ profile_form.date_birth.errors }}</div>
+      </div>
+  
+      <div class="form_part place">
+        <div class="place_part">
+          <label for="birth_place">Birth place</label>
+          {{ profile_form.birth_place|add_class:"form-control"}}
+          <div class="invalid-feedback">{{ profile_form.birth_place.errors }}</div>
+        </div>
+  
+        <div class="place_part">
+          <label for="residence_place">Residence place</label>
+          {{ profile_form.residence_place|add_class:"form-control"}}
+          <div class="invalid-feedback">{{ profile_form.residence_place.errors }}</div>
+        </div>
+      </div>
+      
+      <input type="submit" value="submit" class="btn btn-light">
+    </form>
+  
+  </div>
+</div>
 
 {% endblock content %}

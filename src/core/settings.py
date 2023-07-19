@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     "debug_toolbar",
+    'widget_tweaks',
 
     "auth.apps.AuthConfig",
     "user.apps.UserConfig",
