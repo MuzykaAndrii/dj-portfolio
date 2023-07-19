@@ -118,3 +118,39 @@ class Education(models.Model):
         verbose_name='Date of education ended',
         help_text='Enter date of education was ended, or leve blank if currently learning',
     )
+
+
+class Employment(models.Model):
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='employments',
+    )
+    company_name = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+        verbose_name='Company name',
+    )
+    position = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+        verbose_name='Position',
+    )
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name='Job description',
+    )
+    date_start = models.DateField(
+        null=False,
+        blank=False,
+        verbose_name='Start date',
+    )
+    date_end = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name='End date',
+        help_text='Leave blank if currently employed',
+    )
