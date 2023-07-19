@@ -1,0 +1,14 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+
+{% if request.user.has_profile %}
+  show profile
+{% else %}
+    <div>
+        <h2>Youre havent profile yet.</h2>
+        <a class="btn btn-primary" href="#" role="button">Create profile</a>
+    </div>
+{% endif %}
+
+{% endblock content %}

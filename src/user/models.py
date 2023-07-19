@@ -131,7 +131,7 @@ class Education(models.Model):
                 'degree',
                 'speciality'
             ),
-            name='Education unique constraint')
+            name='Education unique constraint'),
         )
         
 
