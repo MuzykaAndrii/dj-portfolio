@@ -135,7 +135,6 @@ class Education(models.Model):
         )
         
 
-
 class Employment(models.Model):
     profile = models.ForeignKey(
         Profile,
@@ -176,4 +175,3 @@ class Employment(models.Model):
     
     class Meta:
         verbose_name_plural='Employments',
-        
