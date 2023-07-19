@@ -35,3 +35,6 @@ class Language(models.Model):
 
     def __str__(self):
         return f'{self.user} possess {self.name} with {self.level} level'
+    
+    class Meta:
+        verbose_name_plural = 'Languages'
