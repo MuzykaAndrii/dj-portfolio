@@ -25,7 +25,7 @@ class Profile(models.Model):
     date_birth = models.DateField(
         blank=False,
         null=False,
-        verbose_name="Date of user birth",
+        verbose_name="Date of birth",
     )
     birth_place = models.CharField(
         max_length=200,

@@ -1,0 +1,15 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Create profile</h2>
+
+<form action="" method="post">
+  {% csrf_token %}
+  {{profile_form.as_p}}
+
+  <input type="submit" value="submit">
+</form>
+
+{% endblock content %}

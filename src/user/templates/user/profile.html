@@ -7,7 +7,7 @@
 {% else %}
     <div>
         <h2>Youre havent profile yet.</h2>
-        <a class="btn btn-primary" href="#" role="button">Create profile</a>
+        <a class="btn btn-primary" href="{% url 'user:create_profile' %}" role="button">Create profile</a>
     </div>
 {% endif %}
 
