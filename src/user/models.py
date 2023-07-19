@@ -119,6 +119,22 @@ class Education(models.Model):
         help_text='Enter date of education was ended, or leve blank if currently learning',
     )
 
+    def __str__(self) -> str:
+        return f'Education of {self.profile} in {self.institution}'
+    
+    class Meta:
+        verbose_name_plural='Education',
+        constraints = (
+            models.UniqueConstraint(fields=(
+                'profile',
+                'institution',
+                'degree',
+                'speciality'
+            ),
+            name='Education unique constraint')
+        )
+        
+
 
 class Employment(models.Model):
     profile = models.ForeignKey(
@@ -154,3 +170,10 @@ class Employment(models.Model):
         verbose_name='End date',
         help_text='Leave blank if currently employed',
     )
+
+    def __str__(self) -> str:
+        return f'Employment of {self.profile} in {self.company_name}'
+    
+    class Meta:
+        verbose_name_plural='Employments',
+        
