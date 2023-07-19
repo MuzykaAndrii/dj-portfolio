@@ -12,9 +12,9 @@ class Profile(models.Model):
         max_length=50,
         verbose_name="User name",
     )
-    second_name = models.CharField(
+    last_name = models.CharField(
         max_length=50,
-        verbose_name="User second name",
+        verbose_name="User last name",
     )
     surname = models.CharField(
         max_length=50,
@@ -35,6 +35,16 @@ class Profile(models.Model):
         max_length=200,
         verbose_name="Current live place",
     )
+
+    @property
+    def full_name(self) -> str:
+        return f'{self.last_name} {self.first_name} {self.surname}'
+    
+    def __str__(self) -> str:
+        return f'user: {self.user}, {self.full_name}'
+    
+    class Meta:
+        verbose_name_plural = 'Profiles'
 
 
 class Contact(models.Model):
@@ -64,5 +74,14 @@ class Contact(models.Model):
         null=False,
         verbose_name="Link to contact",
     )
+
+    def __str__(self) -> str:
+        return f'{self.type} contact of {self.user}, data: {self.link}'
+    
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(fields=('user', 'type', 'link'), name='Contact uniqueness'),
+        )
+        verbose_name_plural = 'Contacts'
 
 

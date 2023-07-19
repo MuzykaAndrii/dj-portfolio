@@ -11,7 +11,7 @@ class Language(models.Model):
         ("B2", "(B2) Upper Intermediate"),
         ("C1", "(C1) Advanced"),
         ("C2", "(C2) Proficient"),
-        ("Native", "Native")
+        ("native", "Native")
     )
     user = models.ForeignKey(
         Profile,
@@ -32,3 +32,6 @@ class Language(models.Model):
         null=False,
         verbose_name="Level of knowing the language",
     )
+
+    def __str__(self):
+        return f'{self.user} possess {self.name} with {self.level} level'
