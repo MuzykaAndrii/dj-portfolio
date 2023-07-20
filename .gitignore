@@ -1,5 +1,6 @@
 # user defined ignore
-src/static/admin/*
+src/core/assets/media/*
+src/core/assets/static/*
 
 
 # Byte-compiled / optimized / DLL files
