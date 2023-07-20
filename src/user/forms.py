@@ -3,6 +3,7 @@ from django import forms
 from user.models import (
     Contact,
     Profile,
+    Education,
 )
 
 
@@ -28,6 +29,19 @@ EditContactFormSet = forms.inlineformset_factory(
     fields=[
         'type',
         'link',
+    ],
+    can_delete=True,
+    extra=5,
+)
+EditEducationFormSet = forms.inlineformset_factory(
+    Profile,
+    Education,
+    fields=[
+        'institution',
+        'degree',
+        'speciality',
+        'date_start',
+        'date_end',
     ],
     can_delete=True,
     extra=5,

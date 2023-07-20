@@ -22,9 +22,9 @@ class ProfileView(LoginRequiredMixin, View):
     login_url = reverse_lazy('auth:login')
     
     def get(self, request):
-        contacts = request.user.profile.contacts.all()
         context = {
-            'contacts': contacts,
+            'contacts': request.user.profile.contacts.all(),
+            'education_set': request.user.profile.education_set.all(),
         }
 
         return render(request, 'user/profile.html', context)
@@ -88,16 +88,12 @@ class CreateProfileView(UserPassesTestMixin, EditProfileView):
         return not self.request.user.has_profile()
 
 
-class EditContactView(LoginRequiredMixin, View):
+class ContactView(LoginRequiredMixin, View):
     def get(self, request):
         profile = request.user.profile
         form_set = EditContactFormSet(instance=profile)
 
-        # for form in form_set:
-        #     for field in form.fields:
-        #         print(field)
-
-        return render(request, 'user/edit_contacts.html', {'form_set': form_set})
+        return render(request, 'user/contacts.httml', {'form_set': form_set})
     
     def post(self, request):
         profile = request.user.profile
@@ -105,7 +101,7 @@ class EditContactView(LoginRequiredMixin, View):
 
         if not form_set.is_valid():
             messages.error(request, "Error ouccured, please fill the correct data")
-            return render(request, 'user/edit_contacts.html', {'form_set': form_set})
+            return render(request, 'user/contacts.httml', {'form_set': form_set})
         
         form_set.save()
 
