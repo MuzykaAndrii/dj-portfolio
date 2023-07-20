@@ -1,0 +1,11 @@
+.profile-item {
+    margin: 15px;
+    padding: 15px;
+    border: 1px solid #6c757d;
+    border-radius: 5px;
+}
+
+.profile-item > h3 {
+    border-bottom: 1px solid #6c757d;
+    padding-bottom: 5px;
+}

@@ -20,14 +20,16 @@ class CreateProfileForm(forms.ModelForm):
         widgets = {
             'date_birth': forms.widgets.DateInput(attrs={'type': 'date'}),
         }
-        
 
-ContactFormSet = forms.modelformset_factory(
+
+EditContactFormSet = forms.inlineformset_factory(
+    Profile,
     Contact,
-    extra=6,
     fields=[
         'type',
         'link',
-    ]
+    ],
+    can_delete=True,
+    extra=5,
 )
         

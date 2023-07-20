@@ -1,0 +1,43 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'user/edit_contacts.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Edit contacts</h2>
+
+<form action="{% url 'user:edit_contacts' %}" class="contacts_form mb-5" method="post">
+    {% csrf_token %}
+    {{form.non_field_errors}}
+    {{form_set.management_form}}
+
+    <div class="form_container row">
+        {% for form in form_set %}
+
+        <div class="contacts_group col-md-4 mb-5">
+            {{form.type.label}}
+            {{form.type|add_class:"form-select mb-2"}}
+            {{ form.type.errors }}
+
+            {{form.link.label}}
+            {{form.link|add_class:"form-control"}}
+            {{ form.link.errors }}
+
+            {{form.DELETE|add_class:"form-check-input"}}
+            {{form.DELETE.label}}
+
+            {{form.id}}
+
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
+    </div>
+
+    {% endblock content %}

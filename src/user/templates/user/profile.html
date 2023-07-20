@@ -1,15 +1,44 @@
 {% extends "layout/base.html" %}
 
+{% load static %}
+
+{% block style %}
+  <link rel="stylesheet" href="{% static 'user/profile.css' %}">
+{% endblock style %}
+
 {% block content %}
 
 {% if request.user.has_profile %}
-  <div class="profile_data">
-    <h3>{{ request.user.profile.full_name }}</h3>
-    <p><b>Born date: </b>{{ request.user.profile.date_birth }}</p>
-    <p><b>Born at: </b>{{ request.user.profile.birth_place }}</p>
-    <p><b>Live in: </b>{{ request.user.profile.residence_place }}</p>
-    <a class="btn btn-outline-secondary" href="{% url 'user:edit_profile' %}" role="button">Edit profile data</a>
+<div class="row">
+      <div class="card text-bg-light mb-3 col-md-5">
+        <div class="card-header">Profile</div>
+        <div class="card-body">
+          <h5 class="card-title">{{ request.user.profile.full_name }}</h5>
+
+          <p class="card-text"><b>Born date: </b>{{ request.user.profile.date_birth }}</p>
+          <p class="card-text"><b>Born at: </b>{{ request.user.profile.birth_place }}</p>
+          <p class="card-text"><b>Live in: </b>{{ request.user.profile.residence_place }}</p>
+
+          <a class="btn btn-outline-secondary" href="{% url 'user:edit_profile' %}" role="button">Edit profile data</a>
+        </div>
+      </div>
+</div>
+
+<div class="row">
+  <div class="card col-md-3">
+    <div class="card-body">
+      <h5 class="card-title">Contacts:</h5>
+    </div>
+    <ul class="list-group list-group-flush ">
+      {% for contact in contacts %}
+          <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.link}}</li>
+      {% endfor %}
+    </ul>
+    <div class="card-body">
+      <a class="btn btn-outline-secondary" href="{% url 'user:edit_contacts' %}" role="button">Edit contacts</a>
+    </div>
   </div>
+</div>
 
 {% else %}
     <div>

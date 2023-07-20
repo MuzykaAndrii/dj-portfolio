@@ -1,16 +1,20 @@
-from typing import Optional
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
+from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin
 )
 
 from user.forms import (
-    ContactFormSet,
     CreateProfileForm,
+    EditContactFormSet,
+)
+from user.models import (
+    Contact,
+    Profile,
 )
 
 
@@ -18,7 +22,12 @@ class ProfileView(LoginRequiredMixin, View):
     login_url = reverse_lazy('auth:login')
     
     def get(self, request):
-        return render(request, 'user/profile.html')
+        contacts = request.user.profile.contacts.all()
+        context = {
+            'contacts': contacts,
+        }
+
+        return render(request, 'user/profile.html', context)
 
 
 class EditProfileView(LoginRequiredMixin, View):
@@ -77,3 +86,28 @@ class CreateProfileView(UserPassesTestMixin, EditProfileView):
     
     def test_func(self):
         return not self.request.user.has_profile()
+
+
+class EditContactView(LoginRequiredMixin, View):
+    def get(self, request):
+        profile = request.user.profile
+        form_set = EditContactFormSet(instance=profile)
+
+        # for form in form_set:
+        #     for field in form.fields:
+        #         print(field)
+
+        return render(request, 'user/edit_contacts.html', {'form_set': form_set})
+    
+    def post(self, request):
+        profile = request.user.profile
+        form_set = EditContactFormSet(instance=profile, data=request.POST)
+
+        if not form_set.is_valid():
+            messages.error(request, "Error ouccured, please fill the correct data")
+            return render(request, 'user/edit_contacts.html', {'form_set': form_set})
+        
+        form_set.save()
+
+        messages.success(request, "Contacts saved successfully")
+        return redirect('user:profile')
