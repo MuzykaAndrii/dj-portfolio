@@ -8,6 +8,9 @@ from auth.forms import (
     UserLoginForm
 )
 
+def index(request):
+    return redirect('auth:login')
+
 
 class RegisterView(View):
     def get(self, request):
