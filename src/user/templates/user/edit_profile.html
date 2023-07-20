@@ -15,7 +15,11 @@
 {% endif %}
 
 <div class="row profile">
+  {% if request.user.has_profile %}
+  <form action="{% url 'user:edit_profile' %}" method="post" class="mt-5 col-md-6 offset-md-3">
+  {% else %}
   <form action="{% url 'user:create_profile' %}" method="post" class="mt-5 col-md-6 offset-md-3">
+  {% endif %}
       {% csrf_token %}
 
       {{ profile_form.non_field_errors }}
