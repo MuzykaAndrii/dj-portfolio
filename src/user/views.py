@@ -3,8 +3,12 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import formset_factory
 
-from user.forms import CreateProfileForm
+from user.forms import (
+    ContactFormSet,
+    CreateProfileForm,
+)
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -19,7 +23,7 @@ class ProfileView(LoginRequiredMixin, View):
 
 class CreateProfileView(LoginRequiredMixin, View):
     login_url = reverse_lazy('auth:login')
-    
+
     def get(self, request):
         """page with creation form"""
         if request.user.has_profile():

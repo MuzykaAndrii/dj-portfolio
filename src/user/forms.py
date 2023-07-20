@@ -1,12 +1,10 @@
 from django import forms
 
 from user.models import (
+    Contact,
     Profile,
 )
 
-
-class DateInput(forms.DateInput):
-    input_type = 'date'
 
 class CreateProfileForm(forms.ModelForm):
     class Meta:
@@ -20,5 +18,16 @@ class CreateProfileForm(forms.ModelForm):
             'residence_place',
         ]
         widgets = {
-            'date_birth': DateInput(),
+            'date_birth': forms.widgets.DateInput(attrs={'type': 'date'}),
         }
+        
+
+ContactFormSet = forms.modelformset_factory(
+    Contact,
+    extra=6,
+    fields=[
+        'type',
+        'link',
+    ]
+)
+        

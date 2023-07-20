@@ -29,12 +29,21 @@ class Profile(models.Model):
     )
     birth_place = models.CharField(
         max_length=200,
+        null=False,
+        blank=False,
         verbose_name="Place of birth",
     )
     residence_place = models.CharField(
         max_length=200,
+        blank=True,
         verbose_name="Current live place",
     )
+
+    def save(self, *args, **kwargs):
+        if not self.residence_place:
+            self.residence_place = self.birth_place
+
+        super(Profile, self).save(*args, **kwargs)
 
     @property
     def full_name(self) -> str:
