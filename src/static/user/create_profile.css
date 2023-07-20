@@ -31,11 +31,13 @@
     display: block;
 }
 
-.contact_form {
+.contact_form_container {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.contact_form_item {
-    width: 300px;
+.contact_form_group {
+    width: 33%;
+    padding: 10px;
 }
