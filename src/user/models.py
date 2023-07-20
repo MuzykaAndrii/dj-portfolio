@@ -142,6 +142,9 @@ class Education(models.Model):
             ),
             name='Education unique constraint'),
         )
+        ordering = [
+            '-date_end',
+        ]
         
 
 class Employment(models.Model):

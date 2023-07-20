@@ -38,7 +38,41 @@
       <a class="btn btn-outline-secondary" href="{% url 'user:edit_contacts' %}" role="button">Edit contacts</a>
     </div>
   </div>
-</div>
+
+
+  <div class="edu card card border-info col-md-7">
+    <div class="card-header">Education history</div>
+    <table class="table table-striped-columns">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Institution</th>
+          <th scope="col">Speciality</th>
+          <th scope="col">Degree</th>
+          <th scope="col">Date begin</th>
+          <th scope="col">Date end</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for edu in education_set %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ edu.institution }}</td>
+          <td>{{ edu.speciality }}</td>
+          <td>{{ edu.degree }}</td>
+          <td>{{ edu.date_start }}</td>
+          {% if edu.date_end %}
+            <td>{{ edu.date_end }}</td>   
+          {% else %}
+          <td>Current</td>
+          {% endif %}
+        </tr>
+          
+        {% endfor %}
+    </table>
+    </div>
+  </div>
 
 {% else %}
     <div>

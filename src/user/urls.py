@@ -6,6 +6,7 @@ from user.views import (
     EditProfileView,
 
     ContactView,
+    EducationView,
 )
 
 
@@ -17,4 +18,5 @@ urlpatterns = [
     path('profile/edit', EditProfileView.as_view(), name='edit_profile'),
 
     path('profile/contacts/edit', ContactView.as_view(), name='edit_contacts'),
+    path('profile/education/edit', EducationView.as_view(), name='edit_education'),
 ]

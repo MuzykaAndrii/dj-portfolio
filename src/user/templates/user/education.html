@@ -1,0 +1,66 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'user/education.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Edit education</h2>
+
+<form action="{% url 'user:edit_education' %}" class="mb-5" method="post">
+    {% csrf_token %}
+    {{form.non_field_errors}}
+    {{form_set.management_form}}
+
+    <div class="form_container">
+        {% for form in form_set %}
+
+        <div class="edu mb-5">
+            <!-- institution field -->
+            {{ form.institution.label }}
+            {{ form.institution|add_class:"form-control mb-2" }}
+            {{ form.institution.errors }}
+
+            <!-- degree field -->
+            {{ form.degree.label }}
+            {{ form.degree|add_class:"form-control mb-2" }}
+            {{ form.degree.errors }}
+
+            <!-- speciality field -->
+            {{ form.speciality.label }}
+            {{ form.speciality|add_class:"form-control mb-2" }}
+            {{ form.speciality.errors }}
+            
+            <div class="edu_group">
+                <!-- date_start field -->
+                <div class="edu_item">
+                    {{ form.date_start.label }}
+                    {{ form.date_start|add_class:"form-control mb-2" }}
+                    {{ form.date_start.errors }}
+                </div>
+    
+                <!-- date_end field -->
+                <div class="edu_item">
+                    {{ form.date_end.label }}
+                    {{ form.date_end|add_class:"form-control mb-2" }}
+                    {{ form.date_end.errors }}
+                </div>
+            </div>
+            
+            {{form.DELETE|add_class:"form-check-input"}}
+            {{form.DELETE.label}}
+
+            {{form.id}}
+
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <button value="submit" class="btn btn-light" type="submit">Save data</button>
+    </div>
+
+    {% endblock content %}

@@ -33,9 +33,14 @@ EditContactFormSet = forms.inlineformset_factory(
     can_delete=True,
     extra=5,
 )
+
+
 EditEducationFormSet = forms.inlineformset_factory(
     Profile,
     Education,
+    can_delete=True,
+    extra=3,
+    max_num=4,
     fields=[
         'institution',
         'degree',
@@ -43,7 +48,9 @@ EditEducationFormSet = forms.inlineformset_factory(
         'date_start',
         'date_end',
     ],
-    can_delete=True,
-    extra=5,
+    widgets={
+        'date_start': forms.widgets.DateInput(attrs={'type': 'date'}),
+        'date_end': forms.widgets.DateInput(attrs={'type': 'date'}),
+    }
 )
         
