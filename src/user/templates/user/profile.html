@@ -3,7 +3,14 @@
 {% block content %}
 
 {% if request.user.has_profile %}
-  show profile
+  <div class="profile_data">
+    <h3>{{ request.user.profile.full_name }}</h3>
+    <p><b>Born date: </b>{{ request.user.profile.date_birth }}</p>
+    <p><b>Born at: </b>{{ request.user.profile.birth_place }}</p>
+    <p><b>Live in: </b>{{ request.user.profile.residence_place }}</p>
+    <a class="btn btn-outline-secondary" href="{% url 'user:edit_profile' %}" role="button">Edit profile data</a>
+  </div>
+
 {% else %}
     <div>
         <h2>Youre havent profile yet.</h2>

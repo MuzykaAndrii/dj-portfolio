@@ -7,7 +7,13 @@
 {% endblock style %}
 
 {% block content %}
-<h2 style="text-align: center;">Create profile</h2>
+
+{% if request.user.has_profile %}
+  <h2 style="text-align: center;">Update profile</h2>
+{% else %}
+  <h2 style="text-align: center;">Create profile</h2>
+{% endif %}
+
 <div class="row profile">
   <form action="{% url 'user:create_profile' %}" method="post" class="mt-5 col-md-6 offset-md-3">
       {% csrf_token %}
@@ -54,7 +60,7 @@
         </div>
       </div>
       
-      <input type="submit" value="submit" class="btn btn-light">
+      <button value="submit" class="btn btn-light" type="submit">Save data</button>
     </form>
 
     <!-- <form action="" class="col-md-6 contact_form">
