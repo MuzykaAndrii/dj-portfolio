@@ -2,7 +2,6 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
-from django.forms import BaseModelFormSet, inlineformset_factory
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
     UserPassesTestMixin
@@ -13,10 +12,8 @@ from user.forms import (
     EditContactFormSet,
     EditEducationFormSet,
 )
-from user.models import (
-    Contact,
-    Profile,
-)
+
+from user.generic import FormSetView
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -87,35 +84,6 @@ class CreateProfileView(UserPassesTestMixin, EditProfileView):
     
     def test_func(self):
         return not self.request.user.has_profile()
-
-
-class FormSetView(LoginRequiredMixin, View):
-    related_field_name: str = None
-    FormSet: BaseModelFormSet = None
-    template_name: str = None
-    success_redirect: str = None
-
-    def _get_related_field(self, request):
-        return getattr(request.user, self.related_field_name)
-
-    def get(self, request):
-        related_field = self._get_related_field(request)
-        form_set = self.FormSet(instance=related_field)
-
-        return render(request, self.template_name, {'form_set': form_set})
-
-    def post(self, request):
-        related_field = self._get_related_field(request)
-        form_set = self.FormSet(instance=related_field, data=request.POST)
-
-        if not form_set.is_valid():
-            messages.error(request, "Error ouccured, please fill the correct data")
-            return render(request, self.template_name, {'form_set': form_set})
-        
-        form_set.save()
-
-        messages.success(request, "Data saved successfully")
-        return redirect(self.success_redirect)
 
 
 class ContactView(FormSetView):

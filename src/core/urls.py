@@ -9,7 +9,7 @@ urlpatterns = [
 
     path('', include('auth.urls', namespace='auth')),
     path('portfolio/', include('portfolio.urls', namespace='portfolio')),
-    path('user/', include('user.urls', namespace='user')),
+    path('profile/', include('user.urls', namespace='user')),
 ]
 
 if settings.DEBUG:

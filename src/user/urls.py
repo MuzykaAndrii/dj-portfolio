@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 
 from user.views import (
     ProfileView,
@@ -13,10 +13,11 @@ from user.views import (
 app_name = 'user'
 
 urlpatterns = [
-    path('profile/', ProfileView.as_view(), name='profile'),
-    path('profile/create', CreateProfileView.as_view(), name='create_profile'),
-    path('profile/edit', EditProfileView.as_view(), name='edit_profile'),
+    path('', ProfileView.as_view(), name='profile'),
+    path('create/', CreateProfileView.as_view(), name='create_profile'),
+    path('edit/', EditProfileView.as_view(), name='edit_profile'),
 
-    path('profile/contacts/edit', ContactView.as_view(), name='edit_contacts'),
-    path('profile/education/edit', EducationView.as_view(), name='edit_education'),
+    path('contacts/edit/', ContactView.as_view(), name='edit_contacts'),
+    path('education/edit/', EducationView.as_view(), name='edit_education'),
+    path('language/', include('language.urls', namespace='language'))
 ]

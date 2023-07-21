@@ -13,7 +13,7 @@ class Language(models.Model):
         ("C2", "(C2) Proficient"),
         ("native", "Native")
     )
-    user = models.ForeignKey(
+    profile = models.ForeignKey(
         Profile,
         on_delete=models.CASCADE,
         related_name='languages',
