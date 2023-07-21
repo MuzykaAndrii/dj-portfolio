@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import URLValidator
-from django.core.exceptions import ValidationError
 
 
 class Profile(models.Model):
@@ -86,19 +84,6 @@ class Contact(models.Model):
         null=False,
         verbose_name="Contact data (link, nickname, etc.)",
     )
-    is_link = models.BooleanField(default=False)
-
-    def save(self, *args, **kwargs):
-        is_url = URLValidator()
-
-        try:
-            is_url(self.data)
-        except ValidationError:
-            self.is_link = False
-        else:
-            self.is_link = True
-        
-        super(Contact, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f'{self.type} contact of {self.profile}, data: {self.link}'

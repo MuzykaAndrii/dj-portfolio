@@ -30,7 +30,7 @@
     </div>
     <ul class="list-group list-group-flush ">
       {% for contact in contacts %}
-      <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.data}}</li>
+      <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.data|urlize}}</li>
       {% endfor %}
     </ul>
   </div>
