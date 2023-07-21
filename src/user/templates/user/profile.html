@@ -8,7 +8,6 @@
 
 {% block content %}
 
-{% if request.user.has_profile %}
 <div class="row1">
   <div class="prof card">
     <div class="card-header">
@@ -23,7 +22,7 @@
 
     </div>
   </div>
-
+  {% if contacts %}
   <div class="contacts card">
     <div class="card-header">
       <b class="header_item">Contacts</b>
@@ -31,11 +30,13 @@
     </div>
     <ul class="list-group list-group-flush ">
       {% for contact in contacts %}
-      <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.link}}</li>
+      <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.data}}</li>
       {% endfor %}
     </ul>
   </div>
-
+  {% endif %}
+  
+    {% if languages %}
     <div class="card lan">
       <div class="card-header">
         <b class="header_item">Possesing languages</b>
@@ -47,11 +48,13 @@
         <li class="list-group-item">{{ lan.name }}: {{ lan.level }}</li>
         {% endfor %}
       </ul>
-    </div>
+    </div> 
+    {% endif %}
 
 </div>
 
 <div class="row1">
+  {% if education_set %}
   <div class="edu card">
     <div class="card-header">
       <b class="header_item">Education history</b>
@@ -87,7 +90,9 @@
         {% endfor %}
     </table>
   </div>
+  {% endif %}
 
+  {% if employments %}
   <div class="emp card">
     <div class="card-header">
       <b class="header_item">Employment history</b>
@@ -117,13 +122,25 @@
         {% endfor %}
     </table>
   </div>
-
-
-  {% else %}
-  <div>
-    <h2>Youre havent profile yet.</h2>
-    <a class="btn btn-primary" href="{% url 'user:create_profile' %}" role="button">Create profile</a>
-  </div>
   {% endif %}
+  </div>
+
+  <div class="empty">
+    {% if not contacts %}
+      <a class="btn btn-outline-light" href="{% url 'user:edit_contacts' %}" role="button">Add contacts info</a> 
+    {% endif %}
+    
+    {% if not education_set %}
+      <a class="btn btn-outline-light" href="{% url 'user:edit_education' %}" role="button">Add education info</a>
+    {% endif %}
+  
+    {% if not employments %}
+    <a class="btn btn-outline-light" href="{% url 'user:edit_employment' %}" role="button">Add employment info</a>
+    {% endif %}
+  
+    {% if not languages %}
+      <a class="btn btn-outline-light" href="{% url 'user:language:edit_languages' %}" role="button">Add languages info</a>
+    {% endif %}
+  </div>
 
   {% endblock content %}

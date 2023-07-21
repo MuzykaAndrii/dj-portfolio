@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 
 class Profile(models.Model):
@@ -62,6 +64,7 @@ class Contact(models.Model):
         ('email', 'Email address'),
         ('telegram', 'Telegram'),
         ('viber', 'Viber'),
+        ('github', 'Github'),
         ('linkedin', 'Linkedin'),
     )
     profile = models.ForeignKey(
@@ -77,19 +80,32 @@ class Contact(models.Model):
         null=False,
         verbose_name="Contact type"
     )
-    link = models.CharField(
+    data = models.CharField(
         max_length=200,
         blank=False,
         null=False,
-        verbose_name="Link to contact",
+        verbose_name="Contact data (link, nickname, etc.)",
     )
+    is_link = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        is_url = URLValidator()
+
+        try:
+            is_url(self.data)
+        except ValidationError:
+            self.is_link = False
+        else:
+            self.is_link = True
+        
+        super(Contact, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f'{self.type} contact of {self.profile}, data: {self.link}'
     
     class Meta:
         constraints = (
-            models.UniqueConstraint(fields=('profile', 'type', 'link'), name='Contact uniqueness'),
+            models.UniqueConstraint(fields=('profile', 'type', 'data'), name='Contact uniqueness'),
         )
         verbose_name_plural = 'Contacts'
 

@@ -29,7 +29,7 @@ EditContactFormSet = forms.inlineformset_factory(
     Contact,
     fields=[
         'type',
-        'link',
+        'data',
     ],
     can_delete=True,
     extra=5,

@@ -20,6 +20,10 @@ class ProfileView(LoginRequiredMixin, View):
     login_url = reverse_lazy('auth:login')
     
     def get(self, request):
+        if not request.user.has_profile():
+            messages.warning(request, "Youre havent profile yet, please create using form below.")
+            return redirect('user:create_profile')
+
         # TODO: optimize related fields to execute 1 query
         context = {
             'contacts': request.user.profile.contacts.all(),
