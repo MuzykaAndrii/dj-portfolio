@@ -138,7 +138,7 @@
         <div class="card course">
           <img src="{{ course.certificate.url }}" class="card-img-top" alt="...">
           <div class="card-body">
-            <p class="card-text">{{ course.name }}</p>
+            <a href="{% url 'user:view_course' course.pk %}" class="card-text">{{ course.name }}</a>
           </div>
       </div>
       </div>

@@ -1,0 +1,20 @@
+{% extends "layout/base.html" %}
+
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'user/course.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+<h3 class="mb-4" style="text-align: center;">{{ course.profile.full_name }} successfully pass course:</h3>
+
+<div class="card mb-3">
+    <img src="{{ course.certificate.url }}" class="card-img-top" alt="..." style="max-height: 75vh; object-fit: cover;">
+    <div class="card-body">
+        <p class="card-text">{{ course.name }}</p>
+    </div>
+</div>
+
+{% endblock content %}

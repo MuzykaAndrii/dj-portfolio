@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
@@ -15,6 +15,7 @@ from user.forms import (
     EditEmploymenFormSet,
 )
 from user.generic import FormSetView
+from user.models import Course
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -123,3 +124,10 @@ class CoursesView(FormSetView):
     FormSet = EditCoursesFormSet
     template_name = 'user/courses.html'
     success_redirect = 'user:profile'
+
+
+class CourseView(View):
+    def get(self, request, course_pk):
+        course = get_object_or_404(Course.objects.select_related('profile'), pk=course_pk)
+
+        return render(request, 'user/course_item.html', {'course': course})
