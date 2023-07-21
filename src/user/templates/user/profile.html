@@ -10,8 +10,11 @@
 
 {% if request.user.has_profile %}
 <div class="row">
-      <div class="card text-bg-light mb-3 col-md-5">
-        <div class="card-header">Profile</div>
+      <div class="card text-bg-secondary mb-3 col-md-5">
+        <div class="card-header">
+          <b class="header_item">Profile</b>
+          <a href="{% url 'user:edit_profile' %}" class="link-dark header_item">Edit</a>
+        </div>
         <div class="card-body">
           <h5 class="card-title">{{ request.user.profile.full_name }}</h5>
 
@@ -19,29 +22,29 @@
           <p class="card-text"><b>Born at: </b>{{ request.user.profile.birth_place }}</p>
           <p class="card-text"><b>Live in: </b>{{ request.user.profile.residence_place }}</p>
 
-          <a class="btn btn-outline-secondary" href="{% url 'user:edit_profile' %}" role="button">Edit profile data</a>
         </div>
       </div>
 </div>
 
 <div class="row">
   <div class="card col-md-3">
-    <div class="card-body">
-      <h5 class="card-title">Contacts:</h5>
+    <div class="card-header">
+      <b class="header_item">Contacts</b>
+      <a href="{% url 'user:edit_contacts' %}" class="link-secondary header_item">Edit</a>
     </div>
     <ul class="list-group list-group-flush ">
       {% for contact in contacts %}
           <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.link}}</li>
       {% endfor %}
     </ul>
-    <div class="card-body">
-      <a class="btn btn-outline-secondary" href="{% url 'user:edit_contacts' %}" role="button">Edit contacts</a>
-    </div>
   </div>
 
 
-  <div class="edu card card border-info col-md-7">
-    <div class="card-header">Education history</div>
+  <div class="edu card col-md-7">
+    <div class="card-header">
+      <b class="header_item">Education history</b>
+      <a href="{% url 'user:edit_education' %}" class="link-secondary header_item">Edit</a>
+    </div>
     <table class="table table-striped-columns">
       <thead>
         <tr>
