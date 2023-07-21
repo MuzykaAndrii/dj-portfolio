@@ -3,49 +3,61 @@
 {% load static %}
 
 {% block style %}
-  <link rel="stylesheet" href="{% static 'user/profile.css' %}">
+<link rel="stylesheet" href="{% static 'user/profile.css' %}">
 {% endblock style %}
 
 {% block content %}
 
 {% if request.user.has_profile %}
-<div class="row">
-      <div class="card text-bg-secondary mb-3 col-md-5">
-        <div class="card-header">
-          <b class="header_item">Profile</b>
-          <a href="{% url 'user:edit_profile' %}" class="link-dark header_item">Edit</a>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">{{ request.user.profile.full_name }}</h5>
+<div class="row1">
+  <div class="prof card">
+    <div class="card-header">
+      <b class="header_item">Profile</b>
+      <a href="{% url 'user:edit_profile' %}" class="link-secondary header_item">Edit</a>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ request.user.profile.full_name }}</h5>
+      <p class="card-text"><b>Born date: </b>{{ request.user.profile.date_birth }}</p>
+      <p class="card-text"><b>Born at: </b>{{ request.user.profile.birth_place }}</p>
+      <p class="card-text"><b>Live in: </b>{{ request.user.profile.residence_place }}</p>
 
-          <p class="card-text"><b>Born date: </b>{{ request.user.profile.date_birth }}</p>
-          <p class="card-text"><b>Born at: </b>{{ request.user.profile.birth_place }}</p>
-          <p class="card-text"><b>Live in: </b>{{ request.user.profile.residence_place }}</p>
+    </div>
+  </div>
 
-        </div>
-      </div>
-</div>
-
-<div class="row">
-  <div class="card col-md-3">
+  <div class="contacts card">
     <div class="card-header">
       <b class="header_item">Contacts</b>
       <a href="{% url 'user:edit_contacts' %}" class="link-secondary header_item">Edit</a>
     </div>
     <ul class="list-group list-group-flush ">
       {% for contact in contacts %}
-          <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.link}}</li>
+      <li class="list-group-item"><b>{{contact.type}}: </b>{{contact.link}}</li>
       {% endfor %}
     </ul>
   </div>
 
+    <div class="card lan">
+      <div class="card-header">
+        <b class="header_item">Possesing languages</b>
+        <a href="{% url 'user:language:edit_languages' %}" class="link-secondary header_item">Edit</a>
+      </div>
 
-  <div class="edu card col-md-7">
+      <ul class="list-group list-group-flush">
+        {% for lan in languages %}
+        <li class="list-group-item">{{ lan.name }}: {{ lan.level }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+</div>
+
+<div class="row1">
+  <div class="edu card">
     <div class="card-header">
       <b class="header_item">Education history</b>
       <a href="{% url 'user:edit_education' %}" class="link-secondary header_item">Edit</a>
     </div>
-    <table class="table table-striped-columns">
+    <table class="table table-dark table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -66,22 +78,52 @@
           <td>{{ edu.degree }}</td>
           <td>{{ edu.date_start }}</td>
           {% if edu.date_end %}
-            <td>{{ edu.date_end }}</td>   
+          <td>{{ edu.date_end }}</td>
           {% else %}
           <td>Current</td>
           {% endif %}
         </tr>
-          
+
         {% endfor %}
     </table>
-    </div>
   </div>
 
-{% else %}
-    <div>
-        <h2>Youre havent profile yet.</h2>
-        <a class="btn btn-primary" href="{% url 'user:create_profile' %}" role="button">Create profile</a>
+  <div class="emp card">
+    <div class="card-header">
+      <b class="header_item">Employment history</b>
+      <a href="{% url 'user:edit_employment' %}" class="link-secondary header_item">Edit</a>
     </div>
-{% endif %}
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Company</th>
+          <th scope="col">Position</th>
+          <th scope="col">Time working</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
 
-{% endblock content %}
+      <tbody>
+        {% for emp in employments %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ emp.company_name }}</td>
+          <td>{{ emp.position }}</td>
+          <td>{{ emp.date_start }} - {% if emp.date_end %} {{ emp.date_end }} {% else %}current{% endif %}</td>
+          <td>{{ emp.description|truncatechars:30 }}...</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+  </div>
+
+
+  {% else %}
+  <div>
+    <h2>Youre havent profile yet.</h2>
+    <a class="btn btn-primary" href="{% url 'user:create_profile' %}" role="button">Create profile</a>
+  </div>
+  {% endif %}
+
+  {% endblock content %}

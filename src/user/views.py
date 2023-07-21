@@ -11,8 +11,8 @@ from user.forms import (
     CreateProfileForm,
     EditContactFormSet,
     EditEducationFormSet,
+    EditEmploymenFormSet,
 )
-
 from user.generic import FormSetView
 
 
@@ -20,9 +20,12 @@ class ProfileView(LoginRequiredMixin, View):
     login_url = reverse_lazy('auth:login')
     
     def get(self, request):
+        # TODO: optimize related fields to execute 1 query
         context = {
             'contacts': request.user.profile.contacts.all(),
             'education_set': request.user.profile.education_set.all(),
+            'languages': request.user.profile.languages.all(),
+            'employments': request.user.profile.employments.all(),
         }
 
         return render(request, 'user/profile.html', context)
@@ -97,4 +100,11 @@ class EducationView(FormSetView):
     related_field_name = 'profile'
     FormSet = EditEducationFormSet
     template_name = 'user/education.html'
+    success_redirect = 'user:profile'
+
+
+class EmploymentView(FormSetView):
+    related_field_name = 'profile'
+    FormSet = EditEmploymenFormSet
+    template_name = 'user/employment.html'
     success_redirect = 'user:profile'

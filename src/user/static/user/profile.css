@@ -10,7 +10,7 @@
     padding-bottom: 5px;
 }
 
-.edu {
+.lan, .contacts, .emp {
     margin-left: 1rem;
 }
 
@@ -22,4 +22,26 @@
 .row > * {
     padding-left: 0;
     padding-right: 0;
+}
+
+.edu, .emp {
+    margin-top: 1rem;
+}
+
+.row1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.prof {
+    width: 50%;
+}
+
+.lan {
+    width: 20%;
+}
+
+.contacts {
+    width: 30%;
 }

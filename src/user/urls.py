@@ -7,6 +7,7 @@ from user.views import (
 
     ContactView,
     EducationView,
+    EmploymentView,
 )
 
 
@@ -19,5 +20,7 @@ urlpatterns = [
 
     path('contacts/edit/', ContactView.as_view(), name='edit_contacts'),
     path('education/edit/', EducationView.as_view(), name='edit_education'),
-    path('language/', include('language.urls', namespace='language'))
+    path('employment/edit', EmploymentView.as_view(), name='edit_employment'),
+
+    path('language/', include('language.urls', namespace='language')),
 ]

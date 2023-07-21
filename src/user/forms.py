@@ -2,6 +2,7 @@ from django import forms
 
 from user.models import (
     Contact,
+    Employment,
     Profile,
     Education,
 )
@@ -53,4 +54,23 @@ EditEducationFormSet = forms.inlineformset_factory(
         'date_end': forms.widgets.DateInput(attrs={'type': 'date'}),
     }
 )
-        
+
+
+EditEmploymenFormSet = forms.inlineformset_factory(
+    Profile,
+    Employment,
+    can_delete=True,
+    extra=3,
+    max_num=10,
+    fields= [
+        'company_name',
+        'position',
+        'description',
+        'date_start',
+        'date_end',
+    ],
+    widgets={
+        'date_start': forms.widgets.DateInput(attrs={'type': 'date'}),
+        'date_end': forms.widgets.DateInput(attrs={'type': 'date'}),
+    }
+)
