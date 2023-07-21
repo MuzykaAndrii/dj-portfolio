@@ -2,6 +2,7 @@ from django import forms
 
 from user.models import (
     Contact,
+    Course,
     Employment,
     Profile,
     Education,
@@ -73,4 +74,16 @@ EditEmploymenFormSet = forms.inlineformset_factory(
         'date_start': forms.widgets.DateInput(attrs={'type': 'date'}),
         'date_end': forms.widgets.DateInput(attrs={'type': 'date'}),
     }
+)
+
+EditCoursesFormSet = forms.inlineformset_factory(
+    Profile,
+    Course,
+    can_delete=True,
+    extra=4,
+    max_num=20,
+    fields= [
+        'name',
+        'certificate',
+    ]
 )

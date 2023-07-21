@@ -188,3 +188,23 @@ class Employment(models.Model):
     
     class Meta:
         verbose_name_plural='Employments',
+
+
+class Course(models.Model):
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='courses',
+    )
+    name = models.CharField(
+        max_length=255,
+        null=False,
+        blank=False,
+        verbose_name='Course name',
+    )
+    certificate = models.ImageField(
+        upload_to="images/%Y/%m/%d/",
+        null=False,
+        blank=False,
+        verbose_name='Course certificate',
+    )

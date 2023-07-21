@@ -49,3 +49,8 @@
 .empty {
     margin-top: 2rem;
 }
+
+.course > img {
+    height: 150px;
+    object-fit: cover;
+}

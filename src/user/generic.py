@@ -42,9 +42,10 @@ class FormSetView(LoginRequiredMixin, View):
 
     def post(self, request):
         related_field = self._get_related_field(request)
-        form_set = self.FormSet(instance=related_field, data=request.POST)
+        form_set = self.FormSet(instance=related_field, data=request.POST, files=request.FILES)
 
         if not form_set.is_valid():
+            print(request.FILES)
             messages.error(request, "An error occurred. Please fill in the correct data.")
             return render(request, self.template_name, {'form_set': form_set})
 

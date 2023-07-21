@@ -35,21 +35,21 @@
     </ul>
   </div>
   {% endif %}
-  
-    {% if languages %}
-    <div class="card lan">
-      <div class="card-header">
-        <b class="header_item">Possesing languages</b>
-        <a href="{% url 'user:language:edit_languages' %}" class="link-secondary header_item">Edit</a>
-      </div>
 
-      <ul class="list-group list-group-flush">
-        {% for lan in languages %}
-        <li class="list-group-item"><b>{{ lan.name }}: </b>{{ lan.level }}</li>
-        {% endfor %}
-      </ul>
-    </div> 
-    {% endif %}
+  {% if languages %}
+  <div class="card lan">
+    <div class="card-header">
+      <b class="header_item">Possesing languages</b>
+      <a href="{% url 'user:language:edit_languages' %}" class="link-secondary header_item">Edit</a>
+    </div>
+
+    <ul class="list-group list-group-flush">
+      {% for lan in languages %}
+      <li class="list-group-item"><b>{{ lan.name }}: </b>{{ lan.level }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
 
 </div>
 
@@ -123,24 +123,51 @@
     </table>
   </div>
   {% endif %}
-  </div>
+</div>
 
-  <div class="empty">
-    {% if not contacts %}
-      <a class="btn btn-outline-light" href="{% url 'user:edit_contacts' %}" role="button">Add contacts info</a> 
-    {% endif %}
-    
-    {% if not education_set %}
-      <a class="btn btn-outline-light" href="{% url 'user:edit_education' %}" role="button">Add education info</a>
-    {% endif %}
-  
-    {% if not employments %}
-    <a class="btn btn-outline-light" href="{% url 'user:edit_employment' %}" role="button">Add employment info</a>
-    {% endif %}
-  
-    {% if not languages %}
-      <a class="btn btn-outline-light" href="{% url 'user:language:edit_languages' %}" role="button">Add languages info</a>
-    {% endif %}
+{% if courses %}
+<div class="row1 mt-3">
+  <div class="card">
+    <div class="card-header">
+      <b class="header_item">Passed courses</b>
+      <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item">Edit</a>
+    </div>
+    <div class="card-body courses row">
+      {% for course in courses %}
+      <div class="col-md-2 p-2">
+        <div class="card course">
+          <img src="{{ course.certificate.url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text">{{ course.name }}</p>
+          </div>
+      </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
+</div>
+{% endif %}
 
-  {% endblock content %}
+<div class="empty">
+  {% if not contacts %}
+  <a class="btn btn-outline-light" href="{% url 'user:edit_contacts' %}" role="button">Add contacts info</a>
+  {% endif %}
+
+  {% if not education_set %}
+  <a class="btn btn-outline-light" href="{% url 'user:edit_education' %}" role="button">Add education info</a>
+  {% endif %}
+
+  {% if not employments %}
+  <a class="btn btn-outline-light" href="{% url 'user:edit_employment' %}" role="button">Add employment info</a>
+  {% endif %}
+
+  {% if not languages %}
+  <a class="btn btn-outline-light" href="{% url 'user:language:edit_languages' %}" role="button">Add languages info</a>
+  {% endif %}
+
+  {% if not courses %}
+    <a class="btn btn-outline-light" href="{% url 'user:edit_courses' %}" role="button">Add passed courses</a>
+  {% endif %}
+</div>
+
+{% endblock content %}

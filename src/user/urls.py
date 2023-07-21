@@ -1,6 +1,7 @@
 from django.urls import include, path
 
 from user.views import (
+    CoursesView,
     ProfileView,
     CreateProfileView,
     EditProfileView,
@@ -21,6 +22,7 @@ urlpatterns = [
     path('contacts/edit/', ContactView.as_view(), name='edit_contacts'),
     path('education/edit/', EducationView.as_view(), name='edit_education'),
     path('employment/edit', EmploymentView.as_view(), name='edit_employment'),
+    path('courses/edit/', CoursesView.as_view(), name='edit_courses'),
 
     path('language/', include('language.urls', namespace='language')),
 ]

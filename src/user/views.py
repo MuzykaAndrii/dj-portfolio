@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import (
 from user.forms import (
     CreateProfileForm,
     EditContactFormSet,
+    EditCoursesFormSet,
     EditEducationFormSet,
     EditEmploymenFormSet,
 )
@@ -23,13 +24,16 @@ class ProfileView(LoginRequiredMixin, View):
         if not request.user.has_profile():
             messages.warning(request, "Youre havent profile yet, please create using form below.")
             return redirect('user:create_profile')
+        
+        profile = request.user.profile
 
         # TODO: optimize related fields to execute 1 query
         context = {
-            'contacts': request.user.profile.contacts.all(),
-            'education_set': request.user.profile.education_set.all(),
-            'languages': request.user.profile.languages.all(),
-            'employments': request.user.profile.employments.all(),
+            'contacts': profile.contacts.all(),
+            'education_set': profile.education_set.all(),
+            'languages': profile.languages.all(),
+            'employments': profile.employments.all(),
+            'courses': profile.courses.all(),
         }
 
         return render(request, 'user/profile.html', context)
@@ -111,4 +115,11 @@ class EmploymentView(FormSetView):
     related_field_name = 'profile'
     FormSet = EditEmploymenFormSet
     template_name = 'user/employment.html'
+    success_redirect = 'user:profile'
+
+
+class CoursesView(FormSetView):
+    related_field_name = 'profile'
+    FormSet = EditCoursesFormSet
+    template_name = 'user/courses.html'
     success_redirect = 'user:profile'
