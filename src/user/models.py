@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.db.models import Q
+
 
 class Profile(models.Model):
     user = models.OneToOneField(
@@ -232,13 +234,19 @@ class Project(models.Model):
         max_length=100,
         null=True,
         blank=True,
-        verbose_name='Link to project',
+        verbose_name='Link to hosted project',
     )
     source = models.URLField(
         max_length=100,
         null=True,
         blank=True,
-        verbose_name='Link to project source',
+        verbose_name='Link to project repository',
+    )
+    description = models.CharField(
+        max_length=500,
+        null=True,
+        blank=True,
+        verbose_name="Description of project",
     )
 
     def __str__(self):
@@ -248,8 +256,8 @@ class Project(models.Model):
         verbose_name_plural = 'Projects'
         constraints = [
             models.UniqueConstraint(fields=('profile', 'name'), name='Project uniqueness'),
-            # models.CheckConstraint(
-            #     check=Q(link__isnull=True, link_iexact='') & Q(source__isnull=True, source_iexact=''),
-            #     name='Either link or source should be specified'
-            # ),
+            models.CheckConstraint(
+                check=~Q(Q(link__isnull=True) | Q(link__iexact='')) | ~Q(Q(source__isnull=True) | Q(source__iexact='')),
+                name='Either link or source code should be specified',
+            ),
         ]

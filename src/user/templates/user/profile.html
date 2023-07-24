@@ -126,24 +126,22 @@
 </div>
 
 {% if courses %}
-<div class="row1 mt-3">
-  <div class="card">
-    <div class="card-header">
-      <b class="header_item">Passed courses</b>
-      <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item">Edit</a>
-    </div>
-    <div class="card-body courses row">
-      {% for course in courses %}
-      <div class="col-md-2 p-2">
-        <div class="card course">
-          <img src="{{ course.certificate.url }}" class="card-img-top" alt="...">
-          <div class="card-body">
-            <a href="{% url 'user:view_course' course.pk %}" class="card-text">{{ course.name }}</a>
-          </div>
+<div class="mt-3 card">
+  <div class="card-header">
+    <b class="header_item">Passed courses</b>
+    <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item">Edit</a>
+  </div>
+  <div class="card-body courses row">
+    {% for course in courses %}
+    <div class="col-md-2 p-2">
+      <div class="card course">
+        <img src="{{ course.certificate.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <a href="{% url 'user:view_course' course.pk %}" class="card-text">{{ course.name }}</a>
+        </div>
       </div>
-      </div>
-      {% endfor %}
     </div>
+    {% endfor %}
   </div>
 </div>
 {% endif %}
@@ -166,7 +164,7 @@
   {% endif %}
 
   {% if not courses %}
-    <a class="btn btn-outline-light" href="{% url 'user:edit_courses' %}" role="button">Add passed courses</a>
+  <a class="btn btn-outline-light" href="{% url 'user:edit_courses' %}" role="button">Add passed courses</a>
   {% endif %}
 </div>
 
