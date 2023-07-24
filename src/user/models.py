@@ -242,8 +242,7 @@ class Project(models.Model):
         blank=True,
         verbose_name='Link to project repository',
     )
-    description = models.CharField(
-        max_length=500,
+    description = models.TextField(
         null=True,
         blank=True,
         verbose_name="Description of project",

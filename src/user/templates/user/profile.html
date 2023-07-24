@@ -125,26 +125,62 @@
   {% endif %}
 </div>
 
-{% if courses %}
-<div class="mt-3 card">
-  <div class="card-header">
-    <b class="header_item">Passed courses</b>
-    <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item">Edit</a>
+<div class="row1">
+  {% if projects %}
+  <div class="card prj">
+    <div class="card-header">
+      <b class="header_item">Projects</b>
+      <a href="{% url 'user:edit_projects' %}" class="link-secondary header_item">Edit</a>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Link</th>
+            <th scope="col">Source code</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for prj in projects %}
+          <tr>
+            <td>{{ prj.name }}</td>
+            <td><a href="{{ prj.link }}">Link</a></td>
+            <td><a href="{{ prj.source }}">Source</a></td>
+            <td>{{ prj.description|truncatechars:25 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="card-body courses row">
-    {% for course in courses %}
-    <div class="col-md-2 p-2">
-      <div class="card course">
-        <img src="{{ course.certificate.url }}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <a href="{% url 'user:view_course' course.pk %}" class="card-text">{{ course.name }}</a>
+  {% endif %}
+
+  {% if courses %}
+
+  <div class="card crs">
+    <div class="card-header">
+      <b class="header_item">Passed courses</b>
+      <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item">Edit</a>
+    </div>
+    <div class="card-body courses row">
+      {% for course in courses %}
+      <div class="col-md-4 p-2">
+        <div class="card course">
+          <img src="{{ course.certificate.url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <a href="{% url 'user:view_course' course.pk %}" class="card-text">{{ course.name }}</a>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
+
+  {% endif %}
+
 </div>
-{% endif %}
 
 <div class="empty">
   {% if not contacts %}
@@ -165,6 +201,10 @@
 
   {% if not courses %}
   <a class="btn btn-outline-light" href="{% url 'user:edit_courses' %}" role="button">Add passed courses</a>
+  {% endif %}
+
+  {% if not projects %}
+  <a class="btn btn-outline-light" href="{% url 'user:edit_projects' %}" role="button">Add youre projects</a>
   {% endif %}
 </div>
 

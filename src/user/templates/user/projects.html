@@ -1,0 +1,52 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'user/edit_projects.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Edit courses</h2>
+
+<form action="{% url 'user:edit_projects' %}" class="contacts_form mb-5" method="post">
+    {% csrf_token %}
+    {{form_set.management_form}}
+
+    <div class="form_container row">
+        {% for form in form_set %}
+
+        {{form.non_field_errors}}
+
+        <div class="contacts_group col-md-4 mb-5">
+            {{form.name.label}}
+            {{form.name|add_class:"form-control mb-2"}}
+            {{ form.name.errors }}
+
+            {{form.link.label}}
+            {{form.link|add_class:"form-control"}}
+            {{ form.link.errors }}
+
+            {{form.source.label}}
+            {{form.source|add_class:"form-control"}}
+            {{ form.source.errors }}
+
+            {{form.description.label}}
+            {{form.description|add_class:"form-control"}}
+            {{ form.description.errors }}
+
+            {{form.DELETE|add_class:"form-check-input"}}
+            {{form.DELETE.label}}
+
+            {{form.id}}
+
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
+    </div>
+
+    {% endblock content %}

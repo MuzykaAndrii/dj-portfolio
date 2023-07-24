@@ -6,6 +6,7 @@ from user.models import (
     Employment,
     Profile,
     Education,
+    Project,
 )
 
 
@@ -85,5 +86,19 @@ EditCoursesFormSet = forms.inlineformset_factory(
     fields= [
         'name',
         'certificate',
+    ]
+)
+
+EditProjectsFormSet = forms.inlineformset_factory(
+    Profile,
+    Project,
+    can_delete=True,
+    extra=4,
+    max_num=20,
+    fields=[
+        'name',
+        'link',
+        'source',
+        'description',
     ]
 )

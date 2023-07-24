@@ -13,6 +13,7 @@ from user.forms import (
     EditCoursesFormSet,
     EditEducationFormSet,
     EditEmploymenFormSet,
+    EditProjectsFormSet,
 )
 from user.generic import FormSetView
 from user.models import Course
@@ -35,6 +36,7 @@ class ProfileView(LoginRequiredMixin, View):
             'languages': profile.languages.all(),
             'employments': profile.employments.all(),
             'courses': profile.courses.all(),
+            'projects': profile.projects.all(),
         }
 
         return render(request, 'user/profile.html', context)
@@ -123,6 +125,13 @@ class CoursesView(FormSetView):
     related_field_name = 'profile'
     FormSet = EditCoursesFormSet
     template_name = 'user/courses.html'
+    success_redirect = 'user:profile'
+
+
+class ProjectsView(FormSetView):
+    related_field_name = 'profile'
+    FormSet = EditProjectsFormSet
+    template_name = 'user/projects.html'
     success_redirect = 'user:profile'
 
 
