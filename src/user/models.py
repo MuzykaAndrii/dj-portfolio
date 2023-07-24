@@ -208,3 +208,48 @@ class Course(models.Model):
         blank=False,
         verbose_name='Course certificate',
     )
+
+    def __str__(self):
+        return f'Course: {self.name} user: {self.profile}'
+    
+    class Meta:
+        verbose_name_plural = 'Courses'
+
+
+class Project(models.Model):
+    profile = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE,
+        related_name='projects',
+    )
+    name = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+        verbose_name='Project name',
+    )
+    link = models.URLField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name='Link to project',
+    )
+    source = models.URLField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name='Link to project source',
+    )
+
+    def __str__(self):
+        return f'{self.name} project of {self.profile}'
+    
+    class Meta:
+        verbose_name_plural = 'Projects'
+        constraints = [
+            models.UniqueConstraint(fields=('profile', 'name'), name='Project uniqueness'),
+            # models.CheckConstraint(
+            #     check=Q(link__isnull=True, link_iexact='') & Q(source__isnull=True, source_iexact=''),
+            #     name='Either link or source should be specified'
+            # ),
+        ]

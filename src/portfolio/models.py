@@ -2,10 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+from user.models import Profile
+
 
 class Portfolio(models.Model):
-    user = models.ForeignKey(
-        User,
+    profile = models.ForeignKey(
+        Profile,
         on_delete=models.CASCADE,
         related_name='portfolios',
         verbose_name='User portfolio',
@@ -33,11 +35,11 @@ class Portfolio(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.user} portfolio: {self.name}'
+        return f'{self.profile} portfolio: {self.name}'
 
     class Meta:
         constraints = (
-            models.UniqueConstraint(fields=('user', 'name'), name="Unique portfolio name constraint"),
+            models.UniqueConstraint(fields=('profile', 'name'), name="Unique portfolio name constraint"),
         )
 
 
