@@ -1,22 +1,3 @@
-.edu_group {
-    display: flex;
-    justify-content: space-between;
-}
-
-.edu_item {
-    width: 50%;
-}
-
-.form_container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-
-.edu {
-    width: 35%;
-}
-
 .edu_btn {
     display: block;
     margin: 0 auto;

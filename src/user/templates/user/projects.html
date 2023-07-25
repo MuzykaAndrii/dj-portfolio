@@ -14,30 +14,40 @@
     {% csrf_token %}
     {{form_set.management_form}}
 
-    <div class="form_container row">
+    <div class="form_container" style="width: 60%;">
         {% for form in form_set %}
 
         {{form.non_field_errors}}
 
-        <div class="contacts_group col-md-4 mb-5">
-            {{form.name.label}}
-            {{form.name|add_class:"form-control mb-2"}}
-            {{ form.name.errors }}
+        <div class="contacts_group mb-5">
 
-            {{form.link.label}}
-            {{form.link|add_class:"form-control"}}
-            {{ form.link.errors }}
+            <div class="form-floating mb-2">
+                {{form.name|add_class:"form-control mb-2"}}
+                {{form.name.label_tag}}
+                {{ form.name.errors }}
+            </div>
 
-            {{form.source.label}}
-            {{form.source|add_class:"form-control"}}
-            {{ form.source.errors }}
+            <div class="form-floating mb-2">
+                {{form.link|add_class:"form-control"}}
+                {{form.link.label_tag}}
+                {{ form.link.errors }}
+            </div>
 
-            {{form.description.label}}
-            {{form.description|add_class:"form-control"}}
-            {{ form.description.errors }}
+            <div class="form-floating mb-2">
+                {{form.source|add_class:"form-control"}}
+                {{form.source.label_tag}}
+                {{ form.source.errors }}
+            </div>
 
-            {{form.DELETE|add_class:"form-check-input"}}
-            {{form.DELETE.label}}
+            <div class="form-floating">
+                {{form.description|add_class:"form-control"|attr:"style: height: 300px;"}}
+                {{form.description.label_tag}}
+                {{ form.description.errors }}
+            </div>
+
+            {% if form.instance.pk %}
+            {{form.DELETE|add_class:"form-check-input"}}              
+            {% endif %}
 
             {{form.id}}
 
@@ -50,3 +60,19 @@
     </div>
 
     {% endblock content %}
+
+    {% block scripts %}
+    <script src="{% static 'js/jquery-1.3.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.contacts_group').formset({
+                prefix: '{{ form_set.prefix }}',
+                addText: 'Add more',
+                deleteText: 'Delete',
+                deleteCssClass: 'link-danger',
+                addCssClass: 'btn btn-outline-info mb-2'
+            });
+        })
+    </script>
+    {% endblock scripts %}

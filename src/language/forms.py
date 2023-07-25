@@ -8,8 +8,7 @@ EditLanguageFormSet = forms.inlineformset_factory(
     Profile,
     Language,
     can_delete=True,
-    extra=3,
-    max_num=8,
+    extra=0,
     fields=[
         'name',
         'level',

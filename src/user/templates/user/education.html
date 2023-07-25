@@ -18,40 +18,40 @@
     <div class="form_container">
         {% for form in form_set %}
 
-        <div class="edu mb-5">
+        <div class="edu mb-5" style="width: 60%;">
             <!-- institution field -->
             {{ form.institution.label }}
             {{ form.institution|add_class:"form-control mb-2" }}
             {{ form.institution.errors }}
 
-            <!-- degree field -->
-            {{ form.degree.label }}
-            {{ form.degree|add_class:"form-control mb-2" }}
-            {{ form.degree.errors }}
+            <div class="input-group mb-2">
+                <!-- degree field -->
+                <span class="input-group-text">Degree</span>
+                {{ form.degree|add_class:"form-control" }}
+                {{ form.degree.errors }}
+    
+                <!-- speciality field -->
+                <span class="input-group-text">Field</span>
+                {{ form.speciality|add_class:"form-control" }}
+                {{ form.speciality.errors }}
+            </div>
 
-            <!-- speciality field -->
-            {{ form.speciality.label }}
-            {{ form.speciality|add_class:"form-control mb-2" }}
-            {{ form.speciality.errors }}
-            
-            <div class="edu_group">
+            <div class="input-group">
                 <!-- date_start field -->
-                <div class="edu_item">
-                    {{ form.date_start.label }}
-                    {{ form.date_start|add_class:"form-control mb-2" }}
-                    {{ form.date_start.errors }}
-                </div>
+                <span class="input-group-text">Begin</span>
+                {{ form.date_start|add_class:"form-control" }}
+                {{ form.date_start.errors }}
     
                 <!-- date_end field -->
-                <div class="edu_item">
-                    {{ form.date_end.label }}
-                    {{ form.date_end|add_class:"form-control mb-2" }}
-                    {{ form.date_end.errors }}
-                </div>
+                <span class="input-group-text">Ended</span>
+                {{ form.date_end|add_class:"form-control" }}
+                {{ form.date_end.errors }}
             </div>
-            
+
+            {% if form.instance.pk %}
             {{form.DELETE|add_class:"form-check-input"}}
-            {{form.DELETE.label}}
+            {% endif %}
+
 
             {{form.id}}
 
@@ -64,3 +64,19 @@
     </div>
 
     {% endblock content %}
+
+    {% block scripts %}
+    <script src="{% static 'js/jquery-1.3.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.edu').formset({
+                prefix: '{{ form_set.prefix }}',
+                addText: 'Add more',
+                deleteText: 'Delete',
+                deleteCssClass: 'link-danger',
+                addCssClass: 'btn btn-outline-info mb-2'
+            });
+        })
+    </script>
+    {% endblock scripts %}

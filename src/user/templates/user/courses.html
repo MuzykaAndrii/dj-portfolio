@@ -15,10 +15,10 @@
     {{form.non_field_errors}}
     {{form_set.management_form}}
 
-    <div class="form_container row">
+    <div class="form_container" style="width: 50%;">
         {% for form in form_set %}
 
-        <div class="contacts_group col-md-4 mb-5">
+        <div class="contacts_group mb-5">
             {{form.name.label}}
             {{form.name|add_class:"form-control mb-2"}}
             {{ form.name.errors }}
@@ -27,8 +27,9 @@
             {{form.certificate|add_class:"form-control"}}
             {{ form.certificate.errors }}
 
-            {{form.DELETE|add_class:"form-check-input"}}
-            {{form.DELETE.label}}
+            {% if form.instance.pk %}
+            {{form.DELETE}}
+            {% endif %}
 
             {{form.id}}
 
@@ -41,3 +42,19 @@
     </div>
 
     {% endblock content %}
+
+    {% block scripts %}
+    <script src="{% static 'js/jquery-1.3.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.contacts_group').formset({
+                prefix: '{{ form_set.prefix }}',
+                addText: 'Add more',
+                deleteText: 'Delete',
+                deleteCssClass: 'link-danger',
+                addCssClass: 'btn btn-outline-info mb-2'
+            });
+        })
+    </script>
+    {% endblock scripts %}
