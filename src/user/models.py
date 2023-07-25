@@ -128,7 +128,7 @@ class Education(models.Model):
         null=True,
         blank=True,
         verbose_name='Date of education ended',
-        help_text='Enter date of education was ended, or leve blank if currently learning',
+        help_text='Enter date of education was ended, or leave blank if currently learning',
     )
 
     def __str__(self) -> str:

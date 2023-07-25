@@ -12,7 +12,7 @@ from user.forms import (
     EditContactFormSet,
     EditCoursesFormSet,
     EditEducationFormSet,
-    EditEmploymenFormSet,
+    EditEmploymentFormSet,
     EditProjectsFormSet,
 )
 from user.generic import FormSetView
@@ -73,7 +73,7 @@ class EditProfileView(LoginRequiredMixin, View):
         
         profile_form.save()
 
-        messages.success(request, "Profile sucessfully edited")
+        messages.success(request, "Profile successfully edited")
         return redirect('user:profile')
 
 
@@ -99,7 +99,7 @@ class CreateProfileView(UserPassesTestMixin, EditProfileView):
         profile.user = request.user
         profile_form.save()
 
-        messages.success(request, "Profile sucessfully created/edited")
+        messages.success(request, "Profile successfully created/edited")
         return redirect('user:profile')
     
     def test_func(self):
@@ -122,7 +122,7 @@ class EducationView(FormSetView):
 
 class EmploymentView(FormSetView):
     related_field_name = 'profile'
-    FormSet = EditEmploymenFormSet
+    FormSet = EditEmploymentFormSet
     template_name = 'user/employment.html'
     success_redirect = 'user:profile'
 

@@ -58,7 +58,7 @@ EditEducationFormSet = forms.inlineformset_factory(
 )
 
 
-EditEmploymenFormSet = forms.inlineformset_factory(
+EditEmploymentFormSet = forms.inlineformset_factory(
     Profile,
     Employment,
     can_delete=True,
