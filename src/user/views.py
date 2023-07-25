@@ -16,7 +16,7 @@ from user.forms import (
     EditProjectsFormSet,
 )
 from user.generic import FormSetView
-from user.models import Course
+from user.models import Course, Profile
 
 
 class ProfileView(LoginRequiredMixin, View):
@@ -24,12 +24,18 @@ class ProfileView(LoginRequiredMixin, View):
     
     def get(self, request):
         if not request.user.has_profile():
-            messages.warning(request, "Youre havent profile yet, please create using form below.")
+            messages.warning(request, "You're haven't profile yet, please create using form below.")
             return redirect('user:create_profile')
         
-        profile = request.user.profile
+        profile = Profile.objects.prefetch_related(
+            'contacts',
+            'education_set',
+            'employments',
+            'courses',
+            'projects',
+            'languages',
+        ).get(user=request.user)
 
-        # TODO: optimize related fields to execute 1 query
         context = {
             'contacts': profile.contacts.all(),
             'education_set': profile.education_set.all(),

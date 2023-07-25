@@ -88,7 +88,7 @@ class Contact(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.type} contact of {self.profile}, data: {self.link}'
+        return f'{self.type} contact of {self.profile}, data: {self.data}'
     
     class Meta:
         constraints = (
