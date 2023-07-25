@@ -15,20 +15,20 @@
     {{form.non_field_errors}}
     {{form_set.management_form}}
 
-    <div class="form_container row">
+    <div class="form_container" style="width: 50%;">
         {% for form in form_set %}
 
-        <div class="contacts_group col-md-4 mb-5">
-            {{form.type.label}}
-            {{form.type|add_class:"form-select mb-2"}}
+        <div class="contacts_group input-group mb-3">
+            <span class="input-group-text">Type</span>
+            {{form.type|add_class:"form-select"}}
             {{ form.type.errors }}
 
-            {{form.data.label}}
             {{form.data|add_class:"form-control"}}
             {{ form.data.errors }}
 
-            {{form.DELETE|add_class:"form-check-input"}}
-            {{form.DELETE.label}}
+            {% if form.instance.pk %}
+                {{form.DELETE}}
+            {% endif %}
 
             {{form.id}}
 
@@ -37,7 +37,23 @@
         {% endfor %}
     </div>
 
-    <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
+    <button value="submit" class="btn btn-success col-md-2 col-offset-5" type="submit">Save data</button>
     </div>
 
     {% endblock content %}
+
+    {% block scripts %}
+    <script src="{% static 'js/jquery-1.3.2.min.js' %}"></script>
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.contacts_group').formset({
+                prefix: '{{ form_set.prefix }}',
+                addText: 'Add one more contact',
+                deleteText: 'X',
+                deleteCssClass: 'input-group-text btn btn-outline-danger',
+                addCssClass: 'btn btn-outline-info mb-2'
+            });
+        })
+    </script>
+    {% endblock scripts %}

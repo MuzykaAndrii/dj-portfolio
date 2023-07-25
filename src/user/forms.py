@@ -34,7 +34,7 @@ EditContactFormSet = forms.inlineformset_factory(
         'data',
     ],
     can_delete=True,
-    extra=5,
+    extra=0,
 )
 
 
