@@ -146,8 +146,20 @@
           {% for prj in projects %}
           <tr>
             <td>{{ prj.name }}</td>
-            <td><a href="{{ prj.link }}">Link</a></td>
-            <td><a href="{{ prj.source }}">Source</a></td>
+            <td>
+              {% if prj.link %}
+                <a href="{{ prj.link }}">Link</a>
+              {% else %}
+                Not hosted
+              {% endif %}
+            </td>
+            <td>
+              {% if prj.source %}
+                <a href="{{ prj.source }}">Source</a>
+              {% else %}
+                Private
+              {% endif %}
+            </td>
             <td>{{ prj.description|truncatechars:25 }}</td>
           </tr>
           {% endfor %}
@@ -204,7 +216,7 @@
   {% endif %}
 
   {% if not projects %}
-  <a class="btn btn-outline-light" href="{% url 'user:edit_projects' %}" role="button">Add youre projects</a>
+  <a class="btn btn-outline-light" href="{% url 'user:edit_projects' %}" role="button">Add you're projects</a>
   {% endif %}
 </div>
 
