@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
 from django.db.utils import IntegrityError
+from django.db import transaction
 
 from user.mixins import MyLoginRequiredMixin
 from cv.forms import CvForm, SkillsFormSet
@@ -36,22 +37,28 @@ class CvCreateView(MyLoginRequiredMixin, View):
         
         cv = cv_form.save(commit=False)
         cv.profile = request.user.profile
-        cv.save()
 
-        skills = list()
-        for skill_form in skills_formset:
-            skill_obj = skill_form.save(commit=False)
-            skill_obj.cv = cv
-            skills.append(skill_obj)
-        
         try:
-            Skill.objects.bulk_create(skills)
+            with transaction.atomic():
+                cv.save()
+                skills = self.get_bulk_skills(skills_formset, cv)
+                Skill.objects.bulk_create(skills)
+        
         except IntegrityError as e:
             messages.error(request, f'Failed to save: {e}')
-            # TODO: return to edit page since cv instance is already created or wrap creating skills and cv by transaction
             return render(request, 'cv/cv_manage.html', {'cv_form': cv_form, 'skills_formset': skills_formset})
         
         # TODO: redirect to cv item page
         messages.success(request, 'CV created successfully')
         return redirect('cv:list')
+    
+    def get_bulk_skills(self, skills_formset, cv):
+        skills = list()
+
+        for skill_form in skills_formset:
+            skill_obj = skill_form.save(commit=False)
+            skill_obj.cv = cv
+            skills.append(skill_obj)
+        
+        return skills
             
