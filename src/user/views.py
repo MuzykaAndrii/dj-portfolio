@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
     UserPassesTestMixin
 )
 
@@ -17,16 +16,14 @@ from user.forms import (
 )
 from user.generic import FormSetView
 from user.models import Course, Profile
+from user.mixins import (
+    ProfileRequiredMixin,
+    MyLoginRequiredMixin,
+)
 
 
-class ProfileView(LoginRequiredMixin, View):
-    login_url = reverse_lazy('auth:login')
-    
-    def get(self, request):
-        if not request.user.has_profile():
-            messages.warning(request, "You're haven't profile yet, please create using form below.")
-            return redirect('user:create_profile')
-        
+class ProfileView(ProfileRequiredMixin, View):    
+    def get(self, request):        
         profile = Profile.objects.prefetch_related(
             'contacts',
             'education_set',
@@ -48,20 +45,14 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, 'user/profile.html', context)
 
 
-class EditProfileView(LoginRequiredMixin, View):
-    """view for editing existing profile,
-    uses same template as create profile view
-    """
-    login_url = reverse_lazy('auth:login')
-
-    def _render_page(self, request, form):
-        return render(request, 'user/edit_profile.html', {'profile_form': form})
+class EditProfileView(ProfileRequiredMixin, View):
+    """view for editing existing profile"""
 
     def get(self, request):
         """page with update form"""
         profile_form = CreateProfileForm(instance=request.user.profile)
 
-        return self._render_page(request, profile_form)
+        return render(request, 'user/edit_profile.html', {'profile_form': profile_form})
     
     def post(self, request):
         """update form handler"""
@@ -69,72 +60,70 @@ class EditProfileView(LoginRequiredMixin, View):
 
         if not profile_form.is_valid():
             messages.error(request, "Error during editing profile")
-            return self._render_page(request, profile_form)
-        
+            return render(request, 'user/edit_profile.html', {'profile_form': profile_form})
+
         profile_form.save()
 
         messages.success(request, "Profile successfully edited")
         return redirect('user:profile')
 
 
-class CreateProfileView(UserPassesTestMixin, EditProfileView):
-    """View to create a new profile, uses the
-    same template as edit profile view"""
+class CreateProfileView(UserPassesTestMixin, View):
+    """View to create a new profile"""
 
     def get(self, request):
         """page with creation form"""
         profile_form = CreateProfileForm()
-        return self._render_page(request, profile_form)
+        return render(request, 'user/edit_profile.html', {'profile_form': profile_form})
     
     def post(self, request):
         """creation form handler"""
-
         profile_form = CreateProfileForm(request.POST)
 
         if not profile_form.is_valid():
             messages.error(request, "Error during creation profile")
-            return self._render_page(request, profile_form)
+            return render(request, 'user/edit_profile.html', {'profile_form': profile_form})
         
         profile = profile_form.save(commit=False)
         profile.user = request.user
         profile_form.save()
 
-        messages.success(request, "Profile successfully created/edited")
+        messages.success(request, "Profile successfully created")
         return redirect('user:profile')
     
     def test_func(self):
         return not self.request.user.has_profile()
 
 
-class ContactView(FormSetView):
+class ContactView(ProfileRequiredMixin, FormSetView):
     related_field_name = 'profile'
     FormSet = EditContactFormSet
     template_name = 'user/contacts.html'
     success_redirect = 'user:profile'
 
 
-class EducationView(FormSetView):
+class EducationView(ProfileRequiredMixin, FormSetView):
     related_field_name = 'profile'
     FormSet = EditEducationFormSet
     template_name = 'user/education.html'
     success_redirect = 'user:profile'
 
 
-class EmploymentView(FormSetView):
+class EmploymentView(ProfileRequiredMixin, FormSetView):
     related_field_name = 'profile'
     FormSet = EditEmploymentFormSet
     template_name = 'user/employment.html'
     success_redirect = 'user:profile'
 
 
-class CoursesView(FormSetView):
+class CoursesView(ProfileRequiredMixin, FormSetView):
     related_field_name = 'profile'
     FormSet = EditCoursesFormSet
     template_name = 'user/courses.html'
     success_redirect = 'user:profile'
 
 
-class ProjectsView(FormSetView):
+class ProjectsView(ProfileRequiredMixin, FormSetView):
     related_field_name = 'profile'
     FormSet = EditProjectsFormSet
     template_name = 'user/projects.html'

@@ -1,11 +1,10 @@
 from django.forms import BaseModelFormSet
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.shortcuts import redirect, render
 from django.contrib import messages
 
 
-class FormSetView(LoginRequiredMixin, View):
+class FormSetView(View):
     """
     A generic view for conveniently implementing pages with
     creation/editing inline form sets. To use this, you need
@@ -32,7 +31,10 @@ class FormSetView(LoginRequiredMixin, View):
     success_redirect: str = None
 
     def _get_related_field(self, request):
-        return getattr(request.user, self.related_field_name)
+        try:
+            return getattr(request.user, self.related_field_name)
+        except AttributeError:
+            raise AttributeError(f'Instance {request.user} has no attribute {self.related_field_name}')
 
     def get(self, request):
         related_field = self._get_related_field(request)
@@ -45,8 +47,6 @@ class FormSetView(LoginRequiredMixin, View):
         form_set = self.FormSet(instance=related_field, data=request.POST, files=request.FILES)
 
         if not form_set.is_valid():
-            from pprint import pprint
-            pprint(form_set.errors)
             messages.error(request, "An error occurred. Please fill in the correct data.")
             return render(request, self.template_name, {'form_set': form_set})
 
