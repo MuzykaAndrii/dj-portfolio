@@ -44,8 +44,8 @@
         </div>
       </div>
   
-      <div class="date_birth form_part">
-        <label for="date_birth">Date birth</label>
+      <div class="date_birth form_part input-group">
+        <span class="input-group-text" id="basic-addon2">{{ profile_form.date_birth.label }}</span>
         {{ profile_form.date_birth|add_class:"form-control"}}
         <div class="invalid-feedback">{{ profile_form.date_birth.errors }}</div>
       </div>
@@ -60,6 +60,7 @@
         <div class="place_part">
           <label for="residence_place">Residence place</label>
           {{ profile_form.residence_place|add_class:"form-control"|append_attr:"placeholder:Leave blank if same to born place"}}
+          <div class="form-text">Leave blank if matches with born place.</div>
           <div class="invalid-feedback">{{ profile_form.residence_place.errors }}</div>
         </div>
       </div>
