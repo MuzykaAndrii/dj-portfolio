@@ -41,7 +41,7 @@ class LoginView(View):
             user = form.get_user()
             login(request, user)
             messages.success(request, f"{user.username} successfully logged in.")
-            return redirect("portfolio:index")
+            return redirect("user:profile")
 
         return render(request, "auth/login.html", {"form": form})
 

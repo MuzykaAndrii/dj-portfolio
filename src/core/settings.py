@@ -31,7 +31,7 @@ INSTALLED_APPS = [
 
     "auth.apps.AuthConfig",
     "user.apps.UserConfig",
-    'portfolio.apps.PortfolioConfig',
+    'cv.apps.CvConfig',
     'language.apps.LanguageConfig',
 ]
 

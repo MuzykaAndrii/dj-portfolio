@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', include('auth.urls', namespace='auth')),
-    path('portfolio/', include('portfolio.urls', namespace='portfolio')),
+    path('cv/', include('cv.urls', namespace='cv')),
     path('profile/', include('user.urls', namespace='user')),
 ]
 
