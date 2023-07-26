@@ -34,7 +34,7 @@ EditContactFormSet = forms.inlineformset_factory(
         'data',
     ],
     can_delete=True,
-    extra=0,
+    extra=1,
 )
 
 
@@ -42,7 +42,7 @@ EditEducationFormSet = forms.inlineformset_factory(
     Profile,
     Education,
     can_delete=True,
-    extra=0,
+    extra=1,
     fields=[
         'institution',
         'degree',
@@ -61,7 +61,7 @@ EditEmploymentFormSet = forms.inlineformset_factory(
     Profile,
     Employment,
     can_delete=True,
-    extra=0,
+    extra=1,
     fields= [
         'company_name',
         'position',
@@ -79,7 +79,7 @@ EditCoursesFormSet = forms.inlineformset_factory(
     Profile,
     Course,
     can_delete=True,
-    extra=0,
+    extra=1,
     fields= [
         'name',
         'certificate',
@@ -90,7 +90,7 @@ EditProjectsFormSet = forms.inlineformset_factory(
     Profile,
     Project,
     can_delete=True,
-    extra=0,
+    extra=1,
     fields=[
         'name',
         'link',
