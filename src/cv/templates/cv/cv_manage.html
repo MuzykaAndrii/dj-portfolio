@@ -1,0 +1,103 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'cv/cv_manage.css' %}">
+{% endblock style %}
+
+{% block content %}
+
+<h2 class="text-center">Create a new CV</h2>
+
+<form action="{% url 'cv:create' %}" class="contacts_form mb-5" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="row">
+        <div class="col-md-8">
+            <h4>CV info:</h4>
+            {{ cv_form.non_field_errors }}
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">{{ cv_form.name.label }}</span>
+                {{ cv_form.name|add_class:"form-control" }}
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">{{ cv_form.avatar.label }}</span>
+                {{ cv_form.avatar|add_class:"form-control" }}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ cv_form.info|add_class:"form-control"|attr:"style: height: 250px;" }}
+                {{ cv_form.info.label_tag }}
+            </div>
+
+            <div class="form-floating mb-3">
+                {{ cv_form.extra_info|add_class:"form-control"|attr:"style: height: 200px;" }}
+                {{ cv_form.extra_info.label_tag }}
+            </div>
+
+            <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save cv</button>
+
+
+        </div>
+
+        <div class="col-md-4 skills">
+            <h4>Specify skills</h4>
+            {{skills_formset.management_form}}
+
+            {% for form in skills_formset %}
+            <div class="skill mb-5">
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">{{ form.name.label_tag }}</span>
+                    {{ form.name|add_class:"form-control" }}
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">{{ form.type.label_tag }}</span>
+                    {{form.type|add_class:"form-select"}}
+                </div>
+
+                {{ form.level.label_tag }}
+                {% render_field form.level type="range" min="1" max="10" oninput="this.nextElementSibling.value = this.value" class+="form-range rng" %}
+                Approximately: <output class="mb-3">1</output>
+
+                <div class="form-floating">
+                    {{ form.description|add_class:"form-control"|attr:"style: height: 100px;" }}
+                    {{ form.description.label_tag }}
+                </div>
+
+                {% if form.instance.pk %}
+                  {{ form.DELETE }}
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+</form>
+
+{% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static 'js/jquery-1.3.2.min.js' %}"></script>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.skill').formset({
+            addText: '+',
+            deleteText: 'Delete',
+            deleteCssClass: 'link-danger mt-2',
+            addCssClass: 'btn btn-outline-info mb-2',
+            keepFieldValues: '.rng'
+        });
+    })
+</script>
+{% endblock scripts %}
+

@@ -1,16 +1,28 @@
+from django.contrib import messages
 from django.shortcuts import render
 from django.views import View
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
-)
+
+from cv.forms import CvForm, SkillsFormSet
+from user.mixins import MyLoginRequiredMixin
 
 
-class CvListView(LoginRequiredMixin, View):
+class CvListView(MyLoginRequiredMixin, View):
     def get(self, request):
         cvs = request.user.profile.cvs.all()
 
-        return render('cv/cv_list.html', {'cvs': cvs})
+        return render(request, 'cv/cv_list.html', {'cvs': cvs})
 
 
-class CvView(View):
-    pass
+class CvCreateView(MyLoginRequiredMixin, View):
+    def get(self, request):
+        cv_form = CvForm()
+        skills_formset = SkillsFormSet()
+
+        context = {
+            'cv_form': cv_form,
+            'skills_formset': skills_formset,
+        }
+        return render(request, 'cv/cv_manage.html', context)
+
+    def post(self, request):
+        pass

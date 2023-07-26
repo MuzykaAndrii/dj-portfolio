@@ -47,7 +47,6 @@ class Skill(models.Model):
         ('hard', 'Hard skill'),
         ('soft', 'Soft skill'),
     )
-
     cv = models.ForeignKey(
         CV,
         on_delete=models.CASCADE,
@@ -72,8 +71,7 @@ class Skill(models.Model):
         validators=[MinValueValidator(1), MaxValueValidator(10)],
         verbose_name="Level of possessing skill in grade from 1 to 10",
     )
-    description = models.CharField(
-        max_length=1000,
+    description = models.TextField(
         null=True,
         blank=True,
         verbose_name="Skill description",

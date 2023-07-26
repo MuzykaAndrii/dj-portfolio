@@ -5,3 +5,22 @@
         </div>
     {% endfor %}
 {% endif %}
+
+{% comment %}
+{% if messages %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>$(document).ready(function () { $(".toast").toast('show'); });</script>
+
+{% for message in messages %}
+<div class="toast align-items-center border-0 text-bg-{{message.tags}}" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endcomment %}

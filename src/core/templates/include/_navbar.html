@@ -12,6 +12,9 @@
           <a href="{% url 'cv:list' %}" class="nav-link">My cv's</a>
         </li>
         {% endif %}
+        <li class="nav-item">
+          <a href="{% url 'cv:create' %}" class="nav-link">Create cv</a>
+        </li>
       </ul>
       {% if request.user.is_superuser %}
       <div class="nav-item" style="margin-right: 15px;">
