@@ -4,9 +4,9 @@ from django.views import View
 from django.db.utils import IntegrityError
 from django.db import transaction
 
-from user.mixins import MyLoginRequiredMixin
+from user.mixins import MyLoginRequiredMixin, ProfileRequiredMixin
 from cv.forms import CvForm, SkillsFormSet
-from cv.models import Skill
+from cv.models import Skill, CV
 
 
 class CvListView(MyLoginRequiredMixin, View):
@@ -16,7 +16,7 @@ class CvListView(MyLoginRequiredMixin, View):
         return render(request, 'cv/cv_list.html', {'cvs': cvs})
 
 
-class CvCreateView(MyLoginRequiredMixin, View):
+class CvCreateView(ProfileRequiredMixin, View):
     def get(self, request):
         cv_form = CvForm()
         skills_formset = SkillsFormSet(queryset=Skill.objects.none())
@@ -52,7 +52,8 @@ class CvCreateView(MyLoginRequiredMixin, View):
         messages.success(request, 'CV created successfully')
         return redirect('cv:list')
     
-    def get_bulk_skills(self, skills_formset, cv):
+    def get_bulk_skills(self, skills_formset: SkillsFormSet, cv: CV) -> list[Skill]:
+        """Unpack skill objects from formset, applying to each given cv instance"""
         skills = list()
 
         for skill_form in skills_formset:
