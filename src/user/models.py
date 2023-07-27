@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from django.db.models import Q
+from django.db.models import (
+    Q,
+    Count,
+)
 
 
 class Profile(models.Model):
@@ -40,6 +43,15 @@ class Profile(models.Model):
         blank=True,
         verbose_name="Current live place",
     )
+
+    @property
+    def with_cvs_stats(self):
+        queryset = self.cvs.annotate(
+            softskills_count=Count('skills', filter=Q(skills__type__iexact='soft')),
+            hardskills_count=Count('skills', filter=Q(skills__type__iexact='hard')),
+        )
+
+        return queryset
 
     def is_owner_of_cv(self, cv_pk: int) -> bool:
         """Checks if current profile instance is owner of given cv

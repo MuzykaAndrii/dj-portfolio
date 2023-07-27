@@ -8,6 +8,7 @@ from django.views import View
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.mixins import UserPassesTestMixin
 
+
 from cv.forms import (
     CvForm,
     SkillsInlineFormSet,
@@ -25,7 +26,10 @@ from user.mixins import (
 
 class CvListView(MyLoginRequiredMixin, View):
     def get(self, request):
-        cvs = request.user.profile.cvs.all()
+        # TODO: attach count of soft/hard skills
+        profile = request.user.profile
+
+        cvs = profile.with_cvs_stats.values('pk', 'name', 'softskills_count', 'hardskills_count').all()
 
         return render(request, 'cv/cv_list.html', {'cvs': cvs})
 
