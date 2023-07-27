@@ -6,7 +6,7 @@ from django.db import transaction
 from django.core.exceptions import PermissionDenied
 
 from user.mixins import MyLoginRequiredMixin, ProfileRequiredMixin
-from cv.forms import CvForm, SkillsFormSet
+from cv.forms import CvForm, SkillsInlineFormSet, SkillsModelFormSet
 from cv.models import Skill, CV
 
 
@@ -20,7 +20,7 @@ class CvListView(MyLoginRequiredMixin, View):
 class CvCreateView(ProfileRequiredMixin, View):
     def get(self, request):
         cv_form = CvForm()
-        skills_formset = SkillsFormSet(queryset=Skill.objects.none())
+        skills_formset = SkillsModelFormSet(queryset=Skill.objects.none())
 
         context = {
             'cv_form': cv_form,
@@ -30,7 +30,7 @@ class CvCreateView(ProfileRequiredMixin, View):
 
     def post(self, request):
         cv_form = CvForm(data=request.POST, files=request.FILES)
-        skills_formset = SkillsFormSet(data=request.POST)
+        skills_formset = SkillsModelFormSet(data=request.POST)
 
         if not (cv_form.is_valid() and skills_formset.is_valid()):
             messages.error(request, 'Please, enter the correct data')
@@ -53,7 +53,7 @@ class CvCreateView(ProfileRequiredMixin, View):
         messages.success(request, 'CV created successfully')
         return redirect('cv:list')
     
-    def get_bulk_skills(self, skills_formset: SkillsFormSet, cv: CV) -> list[Skill]:
+    def get_bulk_skills(self, skills_formset: SkillsModelFormSet, cv: CV) -> list[Skill]:
         """Unpack skill objects from formset, applying to each given cv instance"""
         skills = list()
 
@@ -73,7 +73,7 @@ class CvEditView(ProfileRequiredMixin, View):
         cv_obj = get_object_or_404(CV.objects.prefetch_related('skills'), pk=cv_pk)
 
         cv_form = CvForm(instance=cv_obj)
-        skills_formset = SkillsFormSet(queryset=Skill.objects.none())
+        skills_formset = SkillsInlineFormSet(instance=cv_obj)
 
         context = {
             'cv_form': cv_form,

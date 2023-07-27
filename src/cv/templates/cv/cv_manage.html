@@ -63,8 +63,8 @@
                 </div>
 
                 {{ form.level.label_tag }}
-                {% render_field form.level type="range" min="1" max="10" oninput="this.nextElementSibling.value = this.value" class+="form-range rng" %}
-                Approximately: <output class="mb-3">1</output>
+                {% render_field form.level type="range" value="1" min="1" max="10" oninput="this.nextElementSibling.value = this.value" class+="form-range rng" %}
+                Approximately: <output class="mb-3">{{ form.level.value }}</output>
 
                 <div class="form-floating">
                     {{ form.description|add_class:"form-control"|attr:"style: height: 100px;" }}
@@ -97,7 +97,7 @@
             deleteText: 'Delete',
             deleteCssClass: 'link-danger mt-2',
             addCssClass: 'btn btn-outline-info mb-2',
-            // keepFieldValues: '.rng'
+            keepFieldValues: '.rng'
         });
     })
 </script>
