@@ -1,13 +1,26 @@
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views import View
-from django.db.utils import IntegrityError
-from django.db import transaction
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
+from django.db.utils import IntegrityError
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic.edit import DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin
 
-from user.mixins import MyLoginRequiredMixin, ProfileRequiredMixin
-from cv.forms import CvForm, SkillsInlineFormSet, SkillsModelFormSet
-from cv.models import Skill, CV
+from cv.forms import (
+    CvForm,
+    SkillsInlineFormSet,
+    SkillsModelFormSet,
+)
+from cv.models import (
+    CV,
+    Skill,
+)
+from user.mixins import (
+    MyLoginRequiredMixin,
+    ProfileRequiredMixin,
+)
 
 
 class CvListView(MyLoginRequiredMixin, View):
@@ -114,3 +127,23 @@ class CvEditView(ProfileRequiredMixin, View):
             'skills_formset': skills_formset,
             'edit': edit,
         }
+
+
+class CvDeleteView(ProfileRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = CV
+    success_url = reverse_lazy('cv:list')
+    success_message = 'CV {cv_name} deleted successfully'
+
+    def form_valid(self, request, *args, **kwargs):
+        obj = self.get_object()
+        message = self.success_message.format(cv_name=obj.name)
+
+        messages.success(self.request, message)
+        return super(CvDeleteView, self).delete(request, *args, **kwargs)
+    
+    def test_func(self):
+        profile = self.request.user.profile
+        cv = self.get_object()
+
+        return profile.is_owner_of_cv(cv.pk)
+    

@@ -1,0 +1,27 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+
+<div class="modal modal-dialog-centered" tabindex="-1" style="display: block;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Deletion you're CV</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>You really want to delete "{{ object.name }} CV?"</p>
+        </div>
+        <div class="modal-footer">
+          <a href="{% url 'cv:list' %}" type="button" class="btn btn-secondary">Go back</a>
+          <form method="post" action="">
+            {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}

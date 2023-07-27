@@ -21,6 +21,7 @@
                 some 
               </div>
               <p><a href="{% url 'cv:edit' cv_pk=cv.pk %}" class="link-secondary">Edit</a></p>
+              <p><a href="{% url 'cv:delete' cv.pk %}" class="link-danger">Delete</a></p>
             </li>
             {% endfor %}
         </ol>
