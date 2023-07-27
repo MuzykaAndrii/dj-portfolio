@@ -75,13 +75,42 @@ class CvEditView(ProfileRequiredMixin, View):
         cv_form = CvForm(instance=cv_obj)
         skills_formset = SkillsInlineFormSet(instance=cv_obj)
 
-        context = {
-            'cv_form': cv_form,
-            'skills_formset': skills_formset,
-            'edit': True,
-        }
+        context = self.get_context_data(cv_form, skills_formset)
         return render(request, 'cv/cv_manage.html', context)
 
     def post(self, request, cv_pk):
-        pass
+        if not request.user.profile.is_owner_of_cv(cv_pk):
+            raise PermissionDenied
+        
+        cv_obj = get_object_or_404(CV, pk=cv_pk)  # ???
+        
+        cv_form = CvForm(instance=cv_obj, data=request.POST, files=request.FILES)
+        skills_formset = SkillsInlineFormSet(instance=cv_obj, data=request.POST, queryset=Skill.objects.none())
+
+        if not (cv_form.is_valid() and skills_formset.is_valid()):
+            print(skills_formset.errors)
+            messages.error(request, 'Invalid form data')
+            context = self.get_context_data(cv_form, skills_formset)
+            return render(request, 'cv/cv_manage.html', context)
+        
+        try:
+            cv_form.save()
+            skills_formset.save()
+
+        except IntegrityError as e:
+            messages.error(request, f'Failed to save data: {e}')
+            context = self.get_context_data(cv_form, skills_formset)
+            return render(request, 'cv/cv_manage.html', context)
+        
+        # TODO: redirect to cv item page
+        messages.success(request, 'CV edited successfully')
+        return redirect('cv:list')
+        
+    
+    def get_context_data(self, cv_form, skills_formset, edit=True):
+        return {
+            'cv_form': cv_form,
+            'skills_formset': skills_formset,
+            'edit': edit,
+        }
             

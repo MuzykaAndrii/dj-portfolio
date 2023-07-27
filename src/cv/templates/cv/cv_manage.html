@@ -8,13 +8,9 @@
 
 {% block content %}
 
-<h2 class="text-center">{% if edit %} Update cv {% else %} Create a new CV {% endif %}</h2>
+<h2 class="text-center">{{cv_form.instance.pk}}{% if edit %} Update cv {% else %} Create a new CV {% endif %}</h2>
 
-<form action="{% if edit %}
-                {% url 'cv:edit' cv_pk=cv_form.instance.pk %}
-                {% else %}
-                {% url 'cv:create' %}
-                {% endif %}" class="contacts_form mb-5" method="post" enctype="multipart/form-data">
+<form action="{% if edit %}{% url 'cv:edit' cv_pk=cv_form.instance.id %}{% else %}{% url 'cv:create' %}{% endif %}" class="contacts_form mb-5" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     <div class="row">
@@ -70,6 +66,8 @@
                     {{ form.description|add_class:"form-control"|attr:"style: height: 100px;" }}
                     {{ form.description.label_tag }}
                 </div>
+
+                {{form.id}}
 
                 {% if form.instance.pk %}
                   {{ form.DELETE }}

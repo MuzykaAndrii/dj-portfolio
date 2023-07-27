@@ -44,7 +44,12 @@ SkillsInlineFormSet = forms.inlineformset_factory(
     Skill,
     can_delete=True,
     extra=0,
+    min_num=1,
+    validate_min=True,
     exclude=[
         'cv',
     ],
+    error_messages={
+        'too_few_forms': 'You must specify at least one skill'
+    }
 )
