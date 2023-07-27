@@ -1,0 +1,16 @@
+{% if widget.is_initial %}
+    <div class="input-group">
+        <span class="input-group-text">{{ widget.initial_text }}:</span>
+        <a target="_blank" class="input-group-text" href="{{ widget.value.url }}">
+            <img class="" style="height: 50px; object-fit: contain;" src="{{ widget.value.url }}" alt="{{ widget.value}}">
+        </a>
+        {% if not widget.required %}
+        <div class="input-group-text">
+            <label style="margin-right: 10px;" class="form-check-label" for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
+            <input class="form-check-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}"{% if widget.attrs.disabled %} disabled{% endif %}>
+        </div>
+        
+    </div>
+{% endif %}<br>
+{{ widget.input_text }}:{% endif %}
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>

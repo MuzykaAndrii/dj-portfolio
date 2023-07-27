@@ -20,7 +20,7 @@
                 <div class="fw-bold">{{ cv.name }}</div>
                 some 
               </div>
-              <p><a href="#" class="link-secondary">Edit</a></p>
+              <p><a href="{% url 'cv:edit' cv_pk=cv.pk %}" class="link-secondary">Edit</a></p>
             </li>
             {% endfor %}
         </ol>

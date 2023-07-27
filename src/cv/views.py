@@ -1,8 +1,9 @@
 from django.contrib import messages
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.db.utils import IntegrityError
 from django.db import transaction
+from django.core.exceptions import PermissionDenied
 
 from user.mixins import MyLoginRequiredMixin, ProfileRequiredMixin
 from cv.forms import CvForm, SkillsFormSet
@@ -62,4 +63,25 @@ class CvCreateView(ProfileRequiredMixin, View):
             skills.append(skill_obj)
         
         return skills
+
+
+class CvEditView(ProfileRequiredMixin, View):
+    def get(self, request, cv_pk):
+        if not request.user.profile.is_owner_of_cv(cv_pk):
+            raise PermissionDenied
+
+        cv_obj = get_object_or_404(CV.objects.prefetch_related('skills'), pk=cv_pk)
+
+        cv_form = CvForm(instance=cv_obj)
+        skills_formset = SkillsFormSet(queryset=Skill.objects.none())
+
+        context = {
+            'cv_form': cv_form,
+            'skills_formset': skills_formset,
+            'edit': True,
+        }
+        return render(request, 'cv/cv_manage.html', context)
+
+    def post(self, request, cv_pk):
+        pass
             

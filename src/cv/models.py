@@ -20,7 +20,7 @@ class CV(models.Model):
         upload_to="images/%Y/%m/%d/",
         blank=True,
         null=True,
-        verbose_name="Image",
+        verbose_name="Set cv avatar",
     )
     info = models.TextField(
         blank=False,

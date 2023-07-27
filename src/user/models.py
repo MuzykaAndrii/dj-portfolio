@@ -41,6 +41,18 @@ class Profile(models.Model):
         verbose_name="Current live place",
     )
 
+    def is_owner_of_cv(self, cv_pk: int) -> bool:
+        """Checks if current profile instance is owner of given cv
+
+        Parameters:
+            cv_pk: int - the cv primary key to check ownership
+
+        Returns: bool
+        """
+        if cv_pk in self.cvs.values_list('pk', flat=True).all():
+            return True
+        return False
+
     def save(self, *args, **kwargs):
         if not self.residence_place:
             self.residence_place = self.birth_place
