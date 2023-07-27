@@ -43,7 +43,7 @@ class CvCreateView(ProfileRequiredMixin, View):
             with transaction.atomic():
                 cv.save()
                 skills = self.get_bulk_skills(skills_formset, cv)
-                Skill.objects.bulk_create(skills)
+                Skill.objects.bulk_create(skills, ignore_conflicts=False)
         
         except IntegrityError as e:
             messages.error(request, f'Failed to save: {e}')
@@ -58,9 +58,10 @@ class CvCreateView(ProfileRequiredMixin, View):
         skills = list()
 
         for skill_form in skills_formset:
-            skill_obj = skill_form.save(commit=False)
-            skill_obj.cv = cv
-            skills.append(skill_obj)
+            if skill_form.is_valid() and skill_form.cleaned_data != {}:
+                skill_obj = skill_form.save(commit=False)
+                skill_obj.cv = cv
+                skills.append(skill_obj)
         
         return skills
 
@@ -73,7 +74,7 @@ class CvEditView(ProfileRequiredMixin, View):
         cv_obj = get_object_or_404(CV.objects.prefetch_related('skills'), pk=cv_pk)
 
         cv_form = CvForm(instance=cv_obj)
-        skills_formset = SkillsInlineFormSet(instance=cv_obj)
+        skills_formset = SkillsInlineFormSet(instance=cv_obj, queryset=cv_obj.skills.all())
 
         context = self.get_context_data(cv_form, skills_formset)
         return render(request, 'cv/cv_manage.html', context)
@@ -82,20 +83,20 @@ class CvEditView(ProfileRequiredMixin, View):
         if not request.user.profile.is_owner_of_cv(cv_pk):
             raise PermissionDenied
         
-        cv_obj = get_object_or_404(CV, pk=cv_pk)  # ???
+        cv_obj = get_object_or_404(CV, pk=cv_pk)
         
         cv_form = CvForm(instance=cv_obj, data=request.POST, files=request.FILES)
-        skills_formset = SkillsInlineFormSet(instance=cv_obj, data=request.POST, queryset=Skill.objects.none())
+        skills_formset = SkillsInlineFormSet(instance=cv_obj, data=request.POST)
 
         if not (cv_form.is_valid() and skills_formset.is_valid()):
-            print(skills_formset.errors)
             messages.error(request, 'Invalid form data')
             context = self.get_context_data(cv_form, skills_formset)
             return render(request, 'cv/cv_manage.html', context)
         
         try:
-            cv_form.save()
-            skills_formset.save()
+            with transaction.atomic():
+                cv_form.save()
+                skills_formset.save()
 
         except IntegrityError as e:
             messages.error(request, f'Failed to save data: {e}')
@@ -113,4 +114,3 @@ class CvEditView(ProfileRequiredMixin, View):
             'skills_formset': skills_formset,
             'edit': edit,
         }
-            

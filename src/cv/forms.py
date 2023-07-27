@@ -28,7 +28,7 @@ class CvForm(forms.ModelForm):
 SkillsModelFormSet = forms.modelformset_factory(
     Skill,
     can_delete=True,
-    extra=1,
+    extra=0,
     min_num=1,
     validate_min=True,
     exclude=[
@@ -43,7 +43,7 @@ SkillsInlineFormSet = forms.inlineformset_factory(
     CV,
     Skill,
     can_delete=True,
-    extra=0,
+    extra=1,
     min_num=1,
     validate_min=True,
     exclude=[
