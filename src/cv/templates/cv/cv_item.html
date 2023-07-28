@@ -1,0 +1,140 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'cv/cv_item.css' %}">
+{% endblock style %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                {{profile.full_name}}
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="avatar">
+                            <img src="{{cv.avatar.url}}" alt="">
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <ul class="list-unstyled profile-info">
+                            <li>
+                                <b>Birth:</b> <span>{{ profile.date_birth|date:"d.m.Y" }}</span>
+                            </li>
+                            <li>
+                                <b>Born:</b><span>{{ profile.birth_place }}</span>
+                            </li>
+                            <li>
+                                <b>Live:</b> <span>{{ profile.residence_place }}</span>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div data-bs-toggle="collapse" data-bs-target="#contacts" class="card-header">
+                Contacts
+            </div>
+            <ul class="list-group list-group-flush" id="contacts">
+                {% for contact in profile.contacts.all %}
+                <li class="list-group-item">{{ contact.type }}: {{ contact.data|urlize }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header" data-bs-toggle="collapse" data-bs-target="#langs">
+                Languages
+            </div>
+            <ul class="list-group list-group-flush" id="langs">
+                {% for lang in profile.languages.all %}
+                <li class="list-group-item hstack">
+                    <div class="">{{ lang.name }}</div>
+                    <div class="badge text-bg-warning ms-auto">{{ lang.level }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                About me:
+            </div>
+            <div class="card-body">
+                {{ cv.info}}
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                Education
+            </div>
+            <table class="table table-dark">
+                <tbody>
+                    {% for edu in profile.education_set.all %}
+                    <tr>
+                        <td>
+                            <span>{{ edu.degree }}</span><br>
+                            <span class="text-secondary">{{edu.institution}}</span>
+                        </td>
+                        <td>{{ edu.speciality }}</td>
+                        <td>
+                            {{ edu.date_start|date:"d.m.Y" }} - {% if edu.date_end %}{{ edu.date_end|date:"d.m.Y" }}{% else %}Current{% endif %}
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+            </table>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                Employment
+            </div>
+            <div class="list-group list-group-flush">
+                {% for emp in profile.employments.all %}
+
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div>
+                            <h5 class="mb-1">{{ emp.company_name }}</h5>
+                            <p class="mb-1 text-body-secondary">{{ emp.description }}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="badge text-bg-secondary">{{emp.date_start}} - {% if emp.date_end %}
+                                {{emp.date_end}} {% else %} current {% endif %}</span>
+                            <br><span class="">{{ emp.position }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                Additionally:
+            </div>
+            <div class="card-body">
+                {{ cv.extra_info}}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

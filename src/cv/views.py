@@ -152,4 +152,11 @@ class CvDeleteView(ProfileRequiredMixin, UserPassesTestMixin, DeleteView):
         cv = self.get_object()
 
         return profile.is_owner_of_cv(cv.pk)
+
+
+class CvItemView(View):
+    def get(self, request, pk):
+        cv = get_object_or_404(CV.objects.prefetch_related('skills').select_related('profile'), pk=pk)
+
+        return render(request, 'cv/cv_item.html', {'cv': cv, 'profile': cv.profile})
     

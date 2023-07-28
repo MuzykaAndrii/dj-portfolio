@@ -4,6 +4,7 @@ from cv.views import (
     CvCreateView,
     CvDeleteView,
     CvEditView,
+    CvItemView,
     CvListView,
 )
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('create/', CvCreateView.as_view(), name='create'),
     path('edit/<int:cv_pk>/', CvEditView.as_view(), name='edit'),
     path('delete/<int:pk>/', CvDeleteView.as_view(), name='delete'),
+    path('show/<int:pk>/', CvItemView.as_view(), name='show'),
 ]

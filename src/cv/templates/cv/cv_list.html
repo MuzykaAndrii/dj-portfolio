@@ -17,7 +17,7 @@
         {% for cv in cvs %}
             <li class="list-group-item d-flex justify-content-between align-items-start">
               <div class="ms-2 me-auto">
-                <div class="fw-bold">{{ cv.name }}</div>
+                <a href="{% url 'cv:show' cv.pk %}" class="fw-bold">{{ cv.name }}</a>
                 <span>Softskills count: {{ cv.softskills_count }}</span><br>
                 <span>Hardskills count: {{ cv.hardskills_count }}</span>
               </div>
