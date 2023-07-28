@@ -2,7 +2,11 @@ from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.utils import IntegrityError
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import (
+    get_object_or_404,
+    redirect,
+    render,
+)
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import DeleteView
@@ -26,9 +30,7 @@ from user.mixins import (
 
 class CvListView(MyLoginRequiredMixin, View):
     def get(self, request):
-        # TODO: attach count of soft/hard skills
         profile = request.user.profile
-
         cvs = profile.with_cvs_stats.values('pk', 'name', 'softskills_count', 'hardskills_count').all()
 
         return render(request, 'cv/cv_list.html', {'cvs': cvs})

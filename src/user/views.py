@@ -23,14 +23,7 @@ from user.mixins import (
 
 class ProfileView(ProfileRequiredMixin, View):    
     def get(self, request):        
-        profile = Profile.objects.prefetch_related(
-            'contacts',
-            'education_set',
-            'employments',
-            'courses',
-            'projects',
-            'languages',
-        ).get(user=request.user)
+        profile = Profile.prefetch_related_fields.get(user=request.user)
 
         context = {
             'contacts': profile.contacts.all(),
@@ -67,7 +60,7 @@ class EditProfileView(ProfileRequiredMixin, View):
         return redirect('user:profile')
 
 
-class CreateProfileView(UserPassesTestMixin, View):
+class CreateProfileView(MyLoginRequiredMixin, UserPassesTestMixin, View):
     """View to create a new profile"""
 
     def get(self, request):

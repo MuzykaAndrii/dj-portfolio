@@ -30,20 +30,20 @@ class FormSetView(View):
     template_name: str = None
     success_redirect: str = None
 
-    def _get_related_field(self, request):
+    def _get_related_field(self):
         try:
-            return getattr(request.user, self.related_field_name)
+            return getattr(self.request.user, self.related_field_name)
         except AttributeError:
-            raise AttributeError(f'Instance {request.user} has no attribute {self.related_field_name}')
+            raise AttributeError(f'Instance {self.request.user} has no attribute {self.related_field_name}')
 
     def get(self, request):
-        related_field = self._get_related_field(request)
+        related_field = self._get_related_field()
         form_set = self.FormSet(instance=related_field)
 
         return render(request, self.template_name, {'form_set': form_set})
 
     def post(self, request):
-        related_field = self._get_related_field(request)
+        related_field = self._get_related_field()
         form_set = self.FormSet(instance=related_field, data=request.POST, files=request.FILES)
 
         if not form_set.is_valid():

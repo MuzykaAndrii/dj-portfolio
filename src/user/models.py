@@ -1,10 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.query import QuerySet
 
 from django.db.models import (
     Q,
     Count,
 )
+
+
+class ProfileRelatedFieldsManager(models.Manager):
+    def get_queryset(self) -> QuerySet:
+        return super().get_queryset().prefetch_related(
+            'contacts',
+            'education_set',
+            'employments',
+            'courses',
+            'projects',
+            'languages',
+        )
 
 
 class Profile(models.Model):
@@ -44,8 +57,13 @@ class Profile(models.Model):
         verbose_name="Current live place",
     )
 
+    prefetch_related_fields = ProfileRelatedFieldsManager()
+
     @property
-    def with_cvs_stats(self):
+    def with_cvs_stats(self) -> QuerySet:
+        """property to retrieve current hard and soft skills count
+        from certain object, returns a QuerySet
+        """
         queryset = self.cvs.annotate(
             softskills_count=Count('skills', filter=Q(skills__type__iexact='soft')),
             hardskills_count=Count('skills', filter=Q(skills__type__iexact='hard')),
