@@ -11,6 +11,7 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
+                <i class="bi bi-person-circle"></i>
                 {{profile.full_name}}
             </div>
             <div class="card-body">
@@ -40,6 +41,7 @@
 
         <div class="card mt-3">
             <div data-bs-toggle="collapse" data-bs-target="#contacts" class="card-header">
+                <i class="bi bi-person-lines-fill"></i>
                 Contacts
             </div>
             <ul class="list-group list-group-flush" id="contacts">
@@ -51,13 +53,34 @@
 
         <div class="card mt-3">
             <div class="card-header" data-bs-toggle="collapse" data-bs-target="#langs">
+                <i class="bi bi-translate"></i>
                 Languages
             </div>
             <ul class="list-group list-group-flush" id="langs">
                 {% for lang in profile.languages.all %}
                 <li class="list-group-item hstack">
                     <div class="">{{ lang.name }}</div>
-                    <div class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill ms-auto">{{ lang.level }}</div>
+                    <div
+                        class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill ms-auto">
+                        {{ lang.level }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="bi bi-search"></i>
+                Courses
+            </div>
+            <ul class="mt-2 mb-2 courses">
+                {% for course in profile.courses.all %}
+                <li class="mb-1">
+                    <a class="icon-link icon-link-hover link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                        href="{% url 'user:view_course' course.pk %}">
+                        <i class="bi bi-link-45deg"></i>
+                        {{ course.name }}
+                    </a>
                 </li>
                 {% endfor %}
             </ul>
@@ -67,6 +90,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
+                <i class="bi bi-file-person"></i>
                 About me:
             </div>
             <div class="card-body">
@@ -76,6 +100,7 @@
 
         <div class="card mt-3">
             <div class="card-header">
+                <i class="bi bi-book"></i>
                 Education
             </div>
             <table class="table">
@@ -99,6 +124,7 @@
 
         <div class="card mt-3">
             <div class="card-header">
+                <i class="bi bi-building"></i>
                 Employment
             </div>
             <div class="list-group list-group-flush">
@@ -107,11 +133,13 @@
                 <div class="list-group-item">
                     <div class="d-flex w-100 justify-content-between">
                         <div>
-                            <h5 class="mb-1">{{ emp.company_name }}</h5>
+                            <h6 class="mb-1">{{ emp.company_name }}</h6>
                             <p class="mb-1 text-body-secondary">{{ emp.description }}</p>
                         </div>
                         <div style="text-align: right;">
-                            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill">{{emp.date_start}} - {% if emp.date_end %}
+                            <span
+                                class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill">{{emp.date_start}}
+                                - {% if emp.date_end %}
                                 {{emp.date_end}} {% else %} current {% endif %}</span>
                             <br><span class="">{{ emp.position }}</span>
                         </div>
@@ -124,6 +152,7 @@
 
         <div class="card mt-3">
             <div class="card-header">
+                <i class="bi bi-cpu"></i>
                 Hard skills
             </div>
 
@@ -131,17 +160,19 @@
                 {% for skill in cv.hard_skills.all %}
                 <li class="d-flex justify-content-between align-items-center mb-2">
                     <div class="ms-2 me-auto">
-                      <div class="fw-bold">{{ skill.name }}</div>
-                      <span class="text-secondary">
-                        {{ skill.description }}
-                      </span>
+                        <div class="fw-bold">{{ skill.name }}</div>
+                        <span class="text-secondary">
+                            {{ skill.description }}
+                        </span>
                     </div>
-                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">{{ skill.level }}/10</span>
-                  </li>
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
+                        {{ skill.level }}/10</span>
+                </li>
                 {% endfor %}
             </ul>
 
             <div class="card-header soft">
+                <i class="bi bi-emoji-smile"></i>
                 Soft skills
             </div>
 
@@ -149,20 +180,59 @@
                 {% for skill in cv.soft_skills.all %}
                 <li class="d-flex justify-content-between align-items-center mb-2">
                     <div class="ms-2 me-auto">
-                      <div class="fw-bold">{{ skill.name }}</div>
-                      <span class="text-secondary">
-                        {{ skill.description }}
-                      </span>
+                        <div class="fw-bold">{{ skill.name }}</div>
+                        <span class="text-secondary">
+                            {{ skill.description }}
+                        </span>
                     </div>
-                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">{{ skill.level }}/10</span>
-                  </li>
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
+                        {{ skill.level }}/10</span>
+                </li>
                 {% endfor %}
             </ul>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="bi bi-code-slash"></i>
+                Projects
+            </div>
+
+            <ol class="list-group list-group-flush">
+                {% for prj in profile.projects.all %}
+
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        {% if prj.link %}
+                        <a href="{{prj.link}}" class="">
+                            {{ prj.name }}
+                        </a>
+                        {% else %}
+                        <div class="fw-bold">
+                            {{ prj.name }}
+                        </div>
+                        {% endif %}
+                        <p class="text-secondary">{{ prj.description }}</p>
+                    </div>
+                    {% if prj.source %}
+                    <a href="{{prj.source}}" class="badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill">
+                        Source
+                    </a>
+                    {% else %}
+                    <span class="badge bg-secondary-subtle border border-secondary-subtle text-secondary-emphasis rounded-pill">
+                        Private
+                    </span>
+                    {% endif %}
+                </li>
+
+                {% endfor %}
+            </ol>
 
         </div>
 
         <div class="card mt-3">
             <div class="card-header">
+                <i class="bi bi-braces"></i>
                 Additionally:
             </div>
             <div class="card-body">
@@ -172,3 +242,10 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block scripts %}
+<script type="text/javascript">
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+{% endblock scripts %}
