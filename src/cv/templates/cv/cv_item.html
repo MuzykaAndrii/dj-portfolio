@@ -57,7 +57,7 @@
                 {% for lang in profile.languages.all %}
                 <li class="list-group-item hstack">
                     <div class="">{{ lang.name }}</div>
-                    <div class="badge text-bg-warning ms-auto">{{ lang.level }}</div>
+                    <div class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill ms-auto">{{ lang.level }}</div>
                 </li>
                 {% endfor %}
             </ul>
@@ -111,7 +111,7 @@
                             <p class="mb-1 text-body-secondary">{{ emp.description }}</p>
                         </div>
                         <div style="text-align: right;">
-                            <span class="badge text-bg-secondary">{{emp.date_start}} - {% if emp.date_end %}
+                            <span class="badge bg-primary-subtle border border-primary-subtle text-primary-emphasis rounded-pill">{{emp.date_start}} - {% if emp.date_end %}
                                 {{emp.date_end}} {% else %} current {% endif %}</span>
                             <br><span class="">{{ emp.position }}</span>
                         </div>
@@ -136,7 +136,7 @@
                         {{ skill.description }}
                       </span>
                     </div>
-                    <span class="badge bg-secondary rounded-pill">{{ skill.level }}/10</span>
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">{{ skill.level }}/10</span>
                   </li>
                 {% endfor %}
             </ul>
@@ -154,7 +154,7 @@
                         {{ skill.description }}
                       </span>
                     </div>
-                    <span class="badge bg-secondary rounded-pill">{{ skill.level }}/10</span>
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">{{ skill.level }}/10</span>
                   </li>
                 {% endfor %}
             </ul>
