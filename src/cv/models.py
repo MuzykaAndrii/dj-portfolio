@@ -1,5 +1,9 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import (
+    MaxValueValidator,
+    MinValueValidator,
+)
+from django.db.models import QuerySet
 
 from user.models import Profile
 
@@ -32,6 +36,14 @@ class CV(models.Model):
         null=True,
         verbose_name="Extra information",
     )
+
+    @property
+    def soft_skills(self) -> QuerySet:
+        return self.skills.filter(type__iexact='soft')
+    
+    @property
+    def hard_skills(self) -> QuerySet:
+        return self.skills.filter(type__iexact='hard')
 
     def __str__(self) -> str:
         return f'{self.profile} cv: {self.name}'
