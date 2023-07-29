@@ -1,3 +1,9 @@
 .alert-error {
     background-color: #842029;
 }
+
+.switcher {
+    position: fixed;
+    top: 15px;
+    left: 10px;
+}

@@ -12,7 +12,7 @@
   <div class="prof card">
     <div class="card-header">
       <b class="header_item">Profile</b>
-      <a href="{% url 'user:edit_profile' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:edit_profile' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ request.user.profile.full_name }}</h5>
@@ -26,7 +26,7 @@
   <div class="contacts card">
     <div class="card-header">
       <b class="header_item">Contacts</b>
-      <a href="{% url 'user:edit_contacts' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:edit_contacts' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
     <ul class="list-group list-group-flush ">
       {% for contact in contacts %}
@@ -40,7 +40,7 @@
   <div class="card lan">
     <div class="card-header">
       <b class="header_item">Possessing languages</b>
-      <a href="{% url 'user:language:edit_languages' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:language:edit_languages' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
 
     <ul class="list-group list-group-flush">
@@ -58,9 +58,9 @@
   <div class="edu card">
     <div class="card-header">
       <b class="header_item">Education history</b>
-      <a href="{% url 'user:edit_education' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:edit_education' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
-    <table class="table table-dark table-striped">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -96,9 +96,9 @@
   <div class="emp card">
     <div class="card-header">
       <b class="header_item">Employment history</b>
-      <a href="{% url 'user:edit_employment' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:edit_employment' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
-    <table class="table table-dark table-striped">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -130,7 +130,7 @@
   <div class="card prj">
     <div class="card-header">
       <b class="header_item">Projects</b>
-      <a href="{% url 'user:edit_projects' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:edit_projects' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
     <div class="card-body">
       <table class="table table-bordered">
@@ -174,7 +174,7 @@
   <div class="card crs">
     <div class="card-header">
       <b class="header_item">Passed courses</b>
-      <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item">Edit</a>
+      <a href="{% url 'user:edit_courses' %}" class="link-secondary header_item"><i class="bi bi-pencil-square"></i></a>
     </div>
     <div class="card-body courses row">
       {% for course in courses %}

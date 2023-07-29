@@ -16,11 +16,14 @@
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
+                    {% if cv.avatar %}
+                      
                     <li class="list-group-item">
                         <div class="avatar">
                             <img src="{{cv.avatar.url}}" alt="">
                         </div>
                     </li>
+                    {% endif %}
                     <li class="list-group-item">
                         <ul class="list-unstyled profile-info">
                             <li>
