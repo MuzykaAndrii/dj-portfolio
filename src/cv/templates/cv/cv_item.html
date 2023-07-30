@@ -49,7 +49,9 @@
             </div>
             <ul class="list-group list-group-flush" id="contacts">
                 {% for contact in profile.contacts.all %}
-                <li class="list-group-item">{{ contact.type }}: {{ contact.data|urlize }}</li>
+                <li class="list-group-item">
+                    {{contact.template}}
+                </li>
                 {% endfor %}
             </ul>
         </div>

@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
+from django.template import (
+    loader,
+    TemplateDoesNotExist,
+)
+from django.template import TemplateDoesNotExist
 
 from django.db.models import (
     Q,
@@ -100,7 +107,67 @@ class Profile(models.Model):
         verbose_name_plural = 'Profiles'
 
 
-class Contact(models.Model):
+class ContactMixin:
+    app_name = 'user'
+    templates_folder = 'contacts_templates'
+    default_template_name = 'default'
+    
+    @property
+    def is_url(self):
+        url_validator = URLValidator()
+
+        try:
+            url_validator(self.data)
+        except ValidationError:
+            return False
+        else:
+            return True
+    
+    def _get_template_path(self, default_template=False):
+        if default_template:
+            contact_type = self.default_template_name
+        else:
+            contact_type = self.type
+
+        template_path = f'{self.app_name}/{self.templates_folder}/{contact_type}.html'        
+        return template_path
+    
+    def _get_context_data(self):
+        context = {
+            'data': self.data,
+        }
+        return context
+    
+    @staticmethod
+    def _render_template(template_path, context):
+        try:
+            return loader.render_to_string(template_path, context)
+        except TemplateDoesNotExist:
+            raise TemplateDoesNotExist(f'Contact template: {template_path} does not exist')
+
+    
+    @property
+    def default_template(self):
+        context = self._get_context_data()
+        context['type'] = self.type
+        template_path = self._get_template_path(default_template=True)
+        rendered_template = self._render_template(template_path, context)
+
+        return rendered_template
+    
+    @property
+    def template(self):
+        if self.is_url:
+            return self.default_template
+        
+        context = self._get_context_data()
+        template_path = self._get_template_path()
+        rendered_template = self._render_template(template_path, context)
+
+        return rendered_template
+
+
+class Contact(ContactMixin, models.Model):
     CONTACT_TYPES = (
         ('phone', 'Phone number'),
         ('email', 'Email address'),
@@ -126,7 +193,7 @@ class Contact(models.Model):
         max_length=200,
         blank=False,
         null=False,
-        verbose_name="Contact data (link, nickname, etc.)",
+        verbose_name="Account nickname or link",
     )
 
     def __str__(self) -> str:
