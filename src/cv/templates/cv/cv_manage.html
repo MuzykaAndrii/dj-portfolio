@@ -62,7 +62,7 @@
             {{skills_formset.non_form_errors}}
 
             {% for form in skills_formset %}
-            <div class="skill mb-5">
+            <div class="skill mb-3 dynamic-form-item">
 
                 <div class="input-group mb-3">
                     <span class="input-group-text">{{ form.name.label_tag }}</span>
@@ -124,10 +124,7 @@
 <script type="text/javascript">
     $(function () {
         $('.skill').formset({
-            addText: '+',
-            deleteText: 'Delete',
-            deleteCssClass: 'link-danger mt-2',
-            addCssClass: 'btn btn-outline-info mb-2',
+            deleteCssClass: 'link-danger delete-btn',
             keepFieldValues: '.rng'
         });
     })

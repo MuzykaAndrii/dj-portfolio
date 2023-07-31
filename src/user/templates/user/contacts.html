@@ -35,9 +35,9 @@
         </div>
 
         {% endfor %}
+        <button value="submit" class="btn btn-success col-md-2 col-offset-5" type="submit">Save data</button>
     </div>
 
-    <button value="submit" class="btn btn-success col-md-2 col-offset-5" type="submit">Save data</button>
     </div>
 
     {% endblock content %}
@@ -49,10 +49,8 @@
         $(function () {
             $('.contacts_group').formset({
                 prefix: '{{ form_set.prefix }}',
-                addText: 'Add one more contact',
                 deleteText: 'X',
                 deleteCssClass: 'input-group-text btn btn-outline-danger',
-                addCssClass: 'btn btn-outline-info mb-2'
             });
         })
     </script>

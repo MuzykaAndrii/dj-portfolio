@@ -8,7 +8,7 @@
 
 {% block content %}
 
-<h2 style="text-align: center;">Edit courses</h2>
+<h2 style="text-align: center;">Edit projects</h2>
 
 <form action="{% url 'user:edit_projects' %}" class="contacts_form mb-5" method="post">
     {% csrf_token %}
@@ -19,7 +19,7 @@
 
         {{form.non_field_errors}}
 
-        <div class="contacts_group mb-5">
+        <div class="contacts_group dynamic-form-item mb-3">
 
             <div class="form-floating mb-2">
                 {{form.name|add_class:"form-control mb-2"}}
@@ -54,10 +54,10 @@
         </div>
 
         {% endfor %}
+        <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
     </div>
 
-    <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
-    </div>
+</form>
 
     {% endblock content %}
 
@@ -68,10 +68,7 @@
         $(function () {
             $('.contacts_group').formset({
                 prefix: '{{ form_set.prefix }}',
-                addText: 'Add more',
-                deleteText: 'Delete',
-                deleteCssClass: 'link-danger',
-                addCssClass: 'btn btn-outline-info mb-2'
+                deleteCssClass: 'link-danger d-block mt-2',
             });
         })
     </script>

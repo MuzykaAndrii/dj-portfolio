@@ -18,7 +18,7 @@
     <div class="form_container" style="width: 50%;">
         {% for form in form_set %}
 
-        <div class="contacts_group mb-5">
+        <div class="contacts_group dynamic-form-item mb-3">
             {{form.name.label}}
             {{form.name|add_class:"form-control mb-2"}}
             {{ form.name.errors }}
@@ -36,10 +36,10 @@
         </div>
 
         {% endfor %}
+        <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
     </div>
 
-    <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save data</button>
-    </div>
+</form>
 
     {% endblock content %}
 
@@ -50,10 +50,7 @@
         $(function () {
             $('.contacts_group').formset({
                 prefix: '{{ form_set.prefix }}',
-                addText: 'Add more',
-                deleteText: 'Delete',
-                deleteCssClass: 'link-danger',
-                addCssClass: 'btn btn-outline-info mb-2'
+                deleteCssClass: 'link-danger d-block mt-2',
             });
         })
     </script>
