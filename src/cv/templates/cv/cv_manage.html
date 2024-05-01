@@ -18,6 +18,7 @@
             <h4>CV info:</h4>
             {{ cv_form.non_form_errors }}
             {{ cv_form.non_field_errors }}
+            {{cv_form.media}}
             <div class="input-group mb-3">
                 <span class="input-group-text">{{ cv_form.name.label }}</span>
                 {{ cv_form.name|add_class:"form-control" }}
@@ -41,14 +42,14 @@
                 </p>
             {% endif %}
 
-            <div class="form-floating mb-3">
-                {{ cv_form.info|add_class:"form-control"|attr:"style: height: 250px;" }}
+            <div class="mb-3">
                 {{ cv_form.info.label_tag }}
+                {{ cv_form.info|add_class:"form-control" }}
             </div>
 
-            <div class="form-floating mb-3">
-                {{ cv_form.extra_info|add_class:"form-control"|attr:"style: height: 200px;" }}
+            <div class="mb-3">
                 {{ cv_form.extra_info.label_tag }}
+                {{ cv_form.extra_info|add_class:"form-control"|attr:"style: height: 200px" }}
             </div>
 
             <button value="submit" class="btn btn-light col-md-2 col-offset-5" type="submit">Save cv</button>
@@ -129,4 +130,5 @@
         });
     })
 </script>
+
 {% endblock scripts %}

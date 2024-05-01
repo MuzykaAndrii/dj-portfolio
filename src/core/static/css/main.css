@@ -13,3 +13,7 @@
     padding: 1rem;
     border-radius: 5px;
 }
+
+.django-ckeditor-widget {
+    width: 100%;
+}

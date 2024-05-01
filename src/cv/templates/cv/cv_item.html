@@ -99,7 +99,7 @@
                 About me:
             </div>
             <div class="card-body">
-                {{ cv.info}}
+                {{ cv.info|safe }}
             </div>
         </div>
 
@@ -241,7 +241,7 @@
                 Additionally:
             </div>
             <div class="card-body">
-                {{ cv.extra_info}}
+                {{ cv.extra_info|safe }}
             </div>
         </div>
     </div>

@@ -1,5 +1,7 @@
 from django import forms
 
+from ckeditor.widgets import CKEditorWidget
+
 from cv.models import (
     CV,
     Skill,
@@ -22,6 +24,8 @@ class CvForm(forms.ModelForm):
 
         widgets={
             'avatar': MyImageInput,
+            'info': CKEditorWidget,
+            'extra_info': CKEditorWidget,
         }
 
 

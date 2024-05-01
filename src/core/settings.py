@@ -28,6 +28,7 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
     'widget_tweaks',
+    "ckeditor",
 
     "auth.apps.AuthConfig",
     "user.apps.UserConfig",
@@ -114,3 +115,16 @@ MEDIA_URL = "/media/"
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
