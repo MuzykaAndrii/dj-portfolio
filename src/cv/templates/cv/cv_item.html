@@ -6,7 +6,17 @@
 <link rel="stylesheet" href="{% static 'cv/cv_item.css' %}">
 {% endblock style %}
 
+{% block scripts-head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock scripts-head %}
+
+
 {% block content %}
+
+{% if request.user.is_authenticated and request.user.profile.id == cv.profile.id %}
+  {% include "include/_save_pdf_btn.html" %}
+{% endif %}
+
 <div class="row align-items-start">
     <div class="col-md-4">
         <div class="card">
@@ -252,5 +262,31 @@
 <script type="text/javascript">
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    document.getElementById("to-pdf-btn").addEventListener("click", function() {
+        let element = document.getElementById('content');
+
+        opt = {
+            filename: 'cv.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            enableLinks: true,
+            pagebreak: {mode: ['css', 'legacy']},
+            jsPDF: {
+                orientation: 'p',
+                unit: 'mm',
+                format: 'a3',
+                putOnlyUsedFonts: true,
+                floatPrecision: 16,
+            },
+            html2canvas:  {
+                dpi: 300,
+                // letterRendering: true,
+                width: 1150,
+                height: 1920,
+            },
+        }
+
+        html2pdf(element, opt);
+    });
 </script>
 {% endblock scripts %}

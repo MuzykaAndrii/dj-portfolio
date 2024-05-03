@@ -14,8 +14,10 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
   {% include 'include/_navbar.html' %}
+
+  {% block extra %}{% endblock extra %}
   
-  <div class="container mb-3">
+  <div id="content" class="container mb-3">
     {% include 'include/_flash_messages.html' %}
 
     {% block content %}  {% endblock content %}
