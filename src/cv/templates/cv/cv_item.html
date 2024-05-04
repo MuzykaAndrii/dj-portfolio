@@ -53,20 +53,6 @@
         </div>
 
         <div class="card mt-3">
-            <div data-bs-toggle="collapse" data-bs-target="#contacts" class="card-header">
-                <i class="bi bi-person-lines-fill"></i>
-                Contacts
-            </div>
-            <ul class="list-group list-group-flush" id="contacts">
-                {% for contact in profile.contacts.all %}
-                <li class="list-group-item">
-                    {{contact.template}}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-
-        <div class="card mt-3">
             <div class="card-header" data-bs-toggle="collapse" data-bs-target="#langs">
                 <i class="bi bi-translate"></i>
                 Languages
@@ -78,6 +64,62 @@
                     <div
                         class="badge bg-warning-subtle border border-warning-subtle text-warning-emphasis rounded-pill ms-auto">
                         {{ lang.level }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header soft">
+                <i class="bi bi-emoji-smile"></i>
+                Soft skills
+            </div>
+
+            <ul class="p-2 mb-0 skills">
+                {% for skill in cv.soft_skills.all %}
+                <li class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ skill.name }}</div>
+                        <span class="text-secondary">
+                            {{ skill.description }}
+                        </span>
+                    </div>
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
+                        {{ skill.level }}/10</span>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="card-header">
+                <i class="bi bi-cpu"></i>
+                Hard skills
+            </div>
+
+            <ul class="p-2 mb-0 skills">
+                {% for skill in cv.hard_skills.all %}
+                <li class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">{{ skill.name }}</div>
+                        <span class="text-secondary">
+                            {{ skill.description }}
+                        </span>
+                    </div>
+                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
+                        {{ skill.level }}/10</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card mt-3">
+            <div data-bs-toggle="collapse" data-bs-target="#contacts" class="card-header">
+                <i class="bi bi-person-lines-fill"></i>
+                Contacts
+            </div>
+            <ul class="list-group list-group-flush" id="contacts">
+                {% for contact in profile.contacts.all %}
+                <li class="list-group-item">
+                    {{contact.template}}
                 </li>
                 {% endfor %}
             </ul>
@@ -163,48 +205,6 @@
 
                 {% endfor %}
             </div>
-        </div>
-
-        <div class="card mt-3">
-            <div class="card-header">
-                <i class="bi bi-cpu"></i>
-                Hard skills
-            </div>
-
-            <ul class="p-2 mb-0 skills">
-                {% for skill in cv.hard_skills.all %}
-                <li class="d-flex justify-content-between align-items-center mb-2">
-                    <div class="ms-2 me-auto">
-                        <div class="fw-bold">{{ skill.name }}</div>
-                        <span class="text-secondary">
-                            {{ skill.description }}
-                        </span>
-                    </div>
-                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
-                        {{ skill.level }}/10</span>
-                </li>
-                {% endfor %}
-            </ul>
-
-            <div class="card-header soft">
-                <i class="bi bi-emoji-smile"></i>
-                Soft skills
-            </div>
-
-            <ul class="p-2 mb-0 skills">
-                {% for skill in cv.soft_skills.all %}
-                <li class="d-flex justify-content-between align-items-center mb-2">
-                    <div class="ms-2 me-auto">
-                        <div class="fw-bold">{{ skill.name }}</div>
-                        <span class="text-secondary">
-                            {{ skill.description }}
-                        </span>
-                    </div>
-                    <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
-                        {{ skill.level }}/10</span>
-                </li>
-                {% endfor %}
-            </ul>
         </div>
 
         <div class="card mt-3">
