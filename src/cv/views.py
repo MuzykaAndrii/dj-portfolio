@@ -93,7 +93,7 @@ class CvEditView(ProfileRequiredMixin, View):
         cv_obj = get_object_or_404(CV.objects.prefetch_related('skills'), pk=cv_pk)
 
         cv_form = CvForm(instance=cv_obj)
-        skills_formset = SkillsInlineFormSet(instance=cv_obj, queryset=cv_obj.skills.all())
+        skills_formset = SkillsInlineFormSet(instance=cv_obj, queryset=cv_obj.skills.all(), prefix="skills_fs")
 
         context = self.get_context_data(cv_form, skills_formset)
         return render(request, 'cv/cv_manage.html', context)
@@ -105,7 +105,7 @@ class CvEditView(ProfileRequiredMixin, View):
         cv_obj = get_object_or_404(CV, pk=cv_pk)
         
         cv_form = CvForm(instance=cv_obj, data=request.POST, files=request.FILES)
-        skills_formset = SkillsInlineFormSet(instance=cv_obj, data=request.POST)
+        skills_formset = SkillsInlineFormSet(instance=cv_obj, data=request.POST, prefix="skills_fs")
 
         if not (cv_form.is_valid() and skills_formset.is_valid()):
             messages.error(request, 'Invalid form data')

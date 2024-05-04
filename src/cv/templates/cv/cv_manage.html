@@ -125,6 +125,7 @@
 <script type="text/javascript">
     $(function () {
         $('.skill').formset({
+            prefix: '{{ skills_formset.prefix }}',
             deleteCssClass: 'link-danger delete-btn',
             keepFieldValues: '.rng'
         });
